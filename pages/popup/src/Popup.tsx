@@ -12,7 +12,7 @@ const Popup = () => {
   const [breakMinutes, setBreakMinutes] = useState(0);
 
   return (
-    <div className={`App size-full p-8 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
+    <div className={`App size-full overflow-hidden p-8 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
       {/* Theme Toggle Switch Row */}
       <div className="mb-8 flex justify-end">
         <button
@@ -45,7 +45,7 @@ const Popup = () => {
                 isLight={isLight}
               />
               
-              <div className="flex justify-center py-1">
+              <div className="flex w-full justify-center py-1">
                 <span role="img" aria-label="lotus" className="text-3xl">🪷</span>
               </div>
               
@@ -57,7 +57,7 @@ const Popup = () => {
                 isLight={isLight}
               />
               
-              <div className="flex justify-center py-1">
+              <div className="flex w-full justify-center py-1">
                 <span role="img" aria-label="lotus" className="text-3xl">🪷</span>
               </div>
               
@@ -74,13 +74,13 @@ const Popup = () => {
           {/* Block List Column */}
           <div className="w-9/12">
             <h2 className="mb-3 text-left text-xl font-bold">Block List</h2>
-            <div className={`mb-4 flex items-center rounded-lg p-2 ${isLight ? 'bg-white' : 'bg-[#2a3b4c]'}`}>
-              <div className="rounded-lg bg-blue-500 p-2">
-                <span role="img" aria-label="search">🔍</span>
+            <div className={`mb-4 flex items-center rounded-lg ${isLight ? 'bg-white' : 'bg-[#2a3b4c]'}`}>
+              <div className="flex size-10 items-center justify-center rounded-lg bg-[#024CAA]">
+                <span role="img" aria-label="search" className="text-2xl">🔎</span>
               </div>
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search for apps and websites to block during focus time"
                 className={`w-full bg-transparent p-2 outline-none ${isLight ? 'text-gray-900' : 'text-white'}`}
               />
             </div>
@@ -112,8 +112,8 @@ const Popup = () => {
         {/* Start Button - Reduced margin-top */}
         <div className="mt-2 flex justify-center">
           <button
-            className={`rounded-lg px-8 py-2 text-white ${
-              isLight ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'
+            className={`rounded-lg px-8 py-2 text-xl font-bold ${
+              isLight ? 'bg-[#39A2DB] text-[#1E1E1E]' : 'bg-[#91C8E4] text-[#F8FAFC]'
             }`}>
             Start
           </button>
