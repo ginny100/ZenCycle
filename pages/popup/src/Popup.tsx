@@ -22,8 +22,8 @@ const Popup = () => {
           }`}
         >
           <div 
-            className={`absolute size-5 rounded-full bg-white transition-transform ${
-              isLight ? 'translate-x-1' : 'translate-x-6'
+            className={`absolute size-4 rounded-full bg-white transition-transform ${
+              isLight ? 'translate-x-1' : 'translate-x-7'
             }`}
           />
         </button>
