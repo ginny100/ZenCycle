@@ -12,12 +12,14 @@ const Popup = () => {
   const [breakMinutes, setBreakMinutes] = useState(0);
 
   return (
-    <div className={`App size-full p-8 transition-colors ${isLight ? 'bg-[#e8f4ff]' : 'bg-[#1a2b3c]'}`}>
+    <div className={`App size-full p-8 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
       {/* Theme Toggle Switch Row */}
       <div className="mb-8 flex justify-end">
         <button
           onClick={exampleThemeStorage.toggle}
-          className="relative flex h-6 w-12 cursor-pointer items-center rounded-full bg-blue-500"
+          className={`relative flex h-6 w-12 cursor-pointer items-center rounded-full ${
+            isLight ? 'bg-blue-500' : 'bg-[#1B2A49]'
+          }`}
         >
           <div 
             className={`absolute size-5 rounded-full bg-white transition-transform ${
@@ -32,7 +34,7 @@ const Popup = () => {
         <div className="flex gap-0">
           {/* Timer Settings Column */}
           <div className="w-7/12 space-y-2">
-            <h1 className="mb-2 text-left font-[\'Agbalumo\'] text-4xl font-normal">Timer setting</h1>
+            <h1 className="mb-2 text-left font-['Agbalumo'] text-4xl font-normal">Timer setting</h1>
             {/* Center the number inputs */}
             <div className="flex flex-col items-center space-y-1">
               <NumberInput
