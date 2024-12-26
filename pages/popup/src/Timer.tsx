@@ -21,7 +21,7 @@ const Timer = ({ onBack }: TimerProps) => {
         isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'
       }`}>
         <div className="flex flex-col items-center justify-between">
-          <h1 className={`text-4xl font-bold italic ${
+          <h1 className={`text-4xl font-['Agbalumo'] ${
             isLight ? 'text-gray-900' : 'text-white'
           }`}>
             Focus Time
@@ -29,16 +29,29 @@ const Timer = ({ onBack }: TimerProps) => {
 
           {/* Timer Circle */}
           <div className="my-9 relative flex size-64 items-center justify-center">
-            <div className="absolute size-full rounded-full border-8 border-[#91C8E4] opacity-30" />
-            <div className="text-7xl font-bold">
+            <div className={`absolute size-full rounded-full border-[12px] ${
+              isLight ? 'border-[#769FCD]' : 'border-[#B9D7EA]'
+            }`} />
+            <div className={`font-['Inria_Sans'] text-7xl font-normal ${
+              isLight ? 'text-[#1E1E1E]' : 'text-[#F8FAFC]'
+            }`}>
               00:00
             </div>
           </div>
 
           {/* Lotus Icons */}
-          <div className="flex gap-2">
-            {'🪷'.repeat(6).split('').map((lotus, index) => (
-              <span key={index} role="img" aria-label="lotus" className="text-3xl">
+          <div className="flex gap-4">
+            {Array(6).fill('🪷').map((lotus, index) => (
+              <span 
+                key={index} 
+                role="img" 
+                aria-label="lotus" 
+                className="text-4xl"
+                style={{ 
+                  filter: 'saturate(1.5) brightness(1.1)',
+                  transform: 'scale(1.2)'
+                }}
+              >
                 {lotus}
               </span>
             ))}
