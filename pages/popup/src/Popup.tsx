@@ -87,7 +87,7 @@ const Popup = () => {
             
             {/* Scrollable container with background */}
             <div className={`rounded-lg p-2 ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'}`}>
-              <div className="max-h-[300px] space-y-3 overflow-y-auto pr-4">
+              <div className="max-h-[300px] space-y-3 overflow-y-auto pr-2">
                 {['App 1', 'App 2', 'App 3', 'App 4', 'App 5', 'App 6', 'App 7', 'App 8', 'App 9', 'App 10'].map((app) => (
                   <div 
                     key={app} 
