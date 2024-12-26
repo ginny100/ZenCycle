@@ -86,7 +86,7 @@ Then, depending on the target browser:
 ### For Chrome: <a name="getting-started-chrome"></a>
 
 1. Run:
-`nvm install 18 && nvm use 18`
+`nvm install stable && nvm use stable`
     - Dev: `pnpm dev` (on Windows, you should run as administrator; see [issue#456](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/456))
     - Prod: `pnpm build`
 2. Open in browser - `chrome://extensions`
