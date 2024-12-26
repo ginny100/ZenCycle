@@ -12,7 +12,7 @@ const Popup = () => {
   const [breakMinutes, setBreakMinutes] = useState(0);
 
   return (
-    <div className={`App size-full overflow-hidden p-8 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
+    <div className={`App size-full overflow-hidden p-2 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
       {/* Theme Toggle Switch Row */}
       <div className="mb-8 flex justify-end">
         <button
@@ -112,7 +112,7 @@ const Popup = () => {
         {/* Start Button - Reduced margin-top */}
         <div className="mt-2 flex justify-center">
           <button
-            className={`rounded-lg px-8 py-2 text-xl font-bold ${
+            className={`rounded-full px-8 py-2 text-xl font-bold ${
               isLight ? 'bg-[#39A2DB] text-[#1E1E1E]' : 'bg-[#91C8E4] text-[#F8FAFC]'
             }`}>
             Start
