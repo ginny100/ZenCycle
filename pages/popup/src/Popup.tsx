@@ -3,6 +3,8 @@ import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage, zenStorage } from '@extension/storage';
 import { useState, useEffect } from 'react';
 import { availableApps, type App } from './constants/apps';
+import Timer from './Timer';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 const Popup = () => {
   const theme = useStorage(themeStorage);
@@ -15,6 +17,7 @@ const Popup = () => {
   const [blockedApps, setBlockedApps] = useState(zenSettings.blockedApps);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
+  const [isTimerView, setIsTimerView] = useState(false);
 
   // Update storage when values change
   useEffect(() => {
@@ -59,24 +62,14 @@ const Popup = () => {
     setBlockedApps(blockedApps.filter(app => app !== appToRemove));
   };
 
+  if (isTimerView) {
+    return <Timer onBack={() => setIsTimerView(false)} />;
+  }
+
   return (
     <div className={`App size-full overflow-hidden p-2 transition-colors ${isLight ? 'bg-[#CDE8F6]' : 'bg-[#364E68]'}`}>
-      {/* Theme Toggle Switch Row */}
-      <div className="mb-8 flex justify-end">
-        <button
-          onClick={themeStorage.toggle}
-          className={`relative flex h-6 w-12 cursor-pointer items-center rounded-full ${
-            isLight ? 'bg-blue-500' : 'bg-[#1B2A49]'
-          }`}
-        >
-          <div 
-            className={`absolute size-4 rounded-full bg-white transition-transform ${
-              isLight ? 'translate-x-1' : 'translate-x-7'
-            }`}
-          />
-        </button>
-      </div>
-
+      <ThemeSwitcher />
+      
       {/* Main Content */}
       <div className={`text-center transition-colors ${isLight ? 'text-gray-900' : 'text-white'}`}>
         <div className="flex gap-0">
@@ -202,16 +195,19 @@ const Popup = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Start Button - Reduced margin-top */}
-        <div className="mt-2 flex justify-center">
-          <button
-            className={`rounded-full px-8 py-2 text-xl font-bold shadow-lg shadow-black/20 ${
-              isLight ? 'bg-[#39A2DB] text-[#1E1E1E]' : 'bg-[#91C8E4] text-[#F8FAFC]'
-            }`}>
-            Start
-          </button>
-        </div>
+      {/* Start Button - Matching position with Back button */}
+      <div className="mt-4 flex justify-center">
+        <button
+          onClick={() => setIsTimerView(true)}
+          className={`rounded-full px-8 py-2 text-xl font-bold shadow-lg shadow-black/20 transition-colors ${
+            isLight 
+              ? 'bg-[#39A2DB] hover:bg-[#769FCD] text-[#1E1E1E]' 
+              : 'bg-[#91C8E4] hover:bg-[#B9D7EA] text-[#F8FAFC]'
+          }`}>
+          Start
+        </button>
       </div>
     </div>
   );
