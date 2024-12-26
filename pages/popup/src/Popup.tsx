@@ -109,7 +109,7 @@ const Popup = () => {
             <div className="relative">
               <div className={`mb-4 flex items-center rounded-lg ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'}`}>
                 <div className="flex size-10 items-center justify-center rounded-lg bg-[#024CAA]">
-                  <span role="img" aria-label="search" className="text-2xl">🔍</span>
+                  <span role="img" aria-label="search" className="text-2xl">🔎</span>
                 </div>
                 <input
                   type="text"
