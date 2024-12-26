@@ -74,7 +74,7 @@ const Popup = () => {
           {/* Block List Column */}
           <div className="w-9/12">
             <h2 className="mb-3 text-left text-xl font-bold">Block List</h2>
-            <div className={`mb-4 flex items-center rounded-lg ${isLight ? 'bg-white' : 'bg-[#2a3b4c]'}`}>
+            <div className={`mb-4 flex items-center rounded-lg ${isLight ? 'bg-white' : 'bg-[#27374D]'}`}>
               <div className="flex size-10 items-center justify-center rounded-lg bg-[#024CAA]">
                 <span role="img" aria-label="search" className="text-2xl">🔎</span>
               </div>
@@ -86,13 +86,13 @@ const Popup = () => {
             </div>
             
             {/* Scrollable container with background */}
-            <div className={`rounded-lg p-3 ${isLight ? 'bg-white/50' : 'bg-[#2a3b4c]/50'}`}>
+            <div className={`rounded-lg p-3 ${isLight ? 'bg-white' : 'bg-[#27374D]'}`}>
               <div className="max-h-[300px] space-y-1 overflow-y-auto pr-2">
                 {['App 1', 'App 2', 'App 3', 'App 4', 'App 5'].map((app) => (
                   <div 
                     key={app} 
                     className={`flex items-center justify-between rounded-lg p-3 ${
-                      isLight ? 'bg-gray-200' : 'bg-[#3a4b5c]'
+                      isLight ? 'bg-gray-200' : 'bg-[#526D82]'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -140,7 +140,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight }: NumberInputPro
           onClick={() => onChange(value + 1)}
           className="text-2xl">▲</button>
         <div className={`flex size-10 items-center justify-center rounded-lg text-2xl ${
-          isLight ? 'bg-white text-black' : 'bg-[#2a3b4c] text-white'
+          isLight ? 'bg-white text-black' : 'bg-[#27374D] text-white'
         }`}>
           {value.toString().padStart(2, '0')}
         </div>
