@@ -129,8 +129,8 @@ const Popup = () => {
                       onClick={() => handleAddApp(app.name)}
                       onKeyDown={(e) => e.key === 'Enter' && handleAddApp(app.name)}
                       tabIndex={0}
-                      className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-gray-100 ${
-                        isLight ? 'hover:bg-gray-100' : 'hover:bg-[#1B2A49]'
+                      className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 ${
+                        isLight ? 'hover:bg-[#BCCCDC]' : 'hover:bg-[#9DB2BF]'
                       }`}
                     >
                       <span className="text-xl">{app.icon}</span>
