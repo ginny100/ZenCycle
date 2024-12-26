@@ -1,19 +1,33 @@
 import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
-import { useState } from 'react';
+import { themeStorage, zenStorage } from '@extension/storage';
+import { useState, useEffect } from 'react';
 import { availableApps, type App } from './constants/apps';
 
 const Popup = () => {
-  const theme = useStorage(exampleThemeStorage);
+  const theme = useStorage(themeStorage);
+  const zenSettings = useStorage(zenStorage);
   const isLight = theme === 'light';
 
-  const [sessions, setSessions] = useState(0);
-  const [focusMinutes, setFocusMinutes] = useState(0);
-  const [breakMinutes, setBreakMinutes] = useState(0);
-  const [blockedApps, setBlockedApps] = useState<string[]>([]);
+  const [sessions, setSessions] = useState(zenSettings.sessions);
+  const [focusMinutes, setFocusMinutes] = useState(zenSettings.focusMinutes);
+  const [breakMinutes, setBreakMinutes] = useState(zenSettings.breakMinutes);
+  const [blockedApps, setBlockedApps] = useState(zenSettings.blockedApps);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
+
+  // Update storage when values change
+  useEffect(() => {
+    zenStorage.updateSessions(sessions);
+  }, [sessions]);
+
+  useEffect(() => {
+    zenStorage.updateFocusMinutes(focusMinutes);
+  }, [focusMinutes]);
+
+  useEffect(() => {
+    zenStorage.updateBreakMinutes(breakMinutes);
+  }, [breakMinutes]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
@@ -33,6 +47,7 @@ const Popup = () => {
 
   const handleAddApp = (appName: string) => {
     if (!blockedApps.includes(appName)) {
+      zenStorage.addBlockedApp(appName);
       setBlockedApps([...blockedApps, appName]);
       setNewBlockedApp('');
       setSearchResults([]);
@@ -40,6 +55,7 @@ const Popup = () => {
   };
 
   const handleRemoveBlockedApp = (appToRemove: string) => {
+    zenStorage.removeBlockedApp(appToRemove);
     setBlockedApps(blockedApps.filter(app => app !== appToRemove));
   };
 
@@ -48,7 +64,7 @@ const Popup = () => {
       {/* Theme Toggle Switch Row */}
       <div className="mb-8 flex justify-end">
         <button
-          onClick={exampleThemeStorage.toggle}
+          onClick={themeStorage.toggle}
           className={`relative flex h-6 w-12 cursor-pointer items-center rounded-full ${
             isLight ? 'bg-blue-500' : 'bg-[#1B2A49]'
           }`}
@@ -75,6 +91,7 @@ const Popup = () => {
                 onChange={setSessions}
                 suffix="sessions"
                 isLight={isLight}
+                type="sessions"
               />
               
               <div className="flex w-full justify-center py-1">
@@ -87,6 +104,7 @@ const Popup = () => {
                 onChange={setFocusMinutes}
                 suffix="minutes"
                 isLight={isLight}
+                type="focus"
               />
               
               <div className="flex w-full justify-center py-1">
@@ -99,6 +117,7 @@ const Popup = () => {
                 onChange={setBreakMinutes}
                 suffix="minutes"
                 isLight={isLight}
+                type="break"
               />
             </div>
           </div>
@@ -204,30 +223,100 @@ interface NumberInputProps {
   onChange: (value: number) => void;
   suffix: string;
   isLight: boolean;
+  type: 'sessions' | 'focus' | 'break';
 }
 
-const NumberInput = ({ label, value, onChange, suffix, isLight }: NumberInputProps) => {
+const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberInputProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value) || 0;
+    
+    switch (type) {
+      case 'sessions':
+        onChange(Math.min(Math.max(0, newValue), 12));
+        break;
+      case 'focus':
+        if (newValue === 0) {
+          onChange(0);
+          break;
+        }
+        const focusValues = [25, 50, 100, 200];
+        const closestFocus = focusValues.reduce((prev, curr) => 
+          Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
+        );
+        onChange(closestFocus);
+        break;
+      case 'break':
+        if (newValue === 0) {
+          onChange(0);
+          break;
+        }
+        const breakValues = [5, 10, 20, 40];
+        const closestBreak = breakValues.reduce((prev, curr) => 
+          Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
+        );
+        onChange(closestBreak);
+        break;
+    }
+  };
+
+  const handleIncrement = () => {
+    switch (type) {
+      case 'sessions':
+        onChange(Math.min(value + 1, 12));
+        break;
+      case 'focus':
+        if (value === 0) {
+          onChange(25);
+          break;
+        }
+        const focusValues = [25, 50, 100, 200];
+        const nextFocus = focusValues.find(v => v > value) ?? 200;
+        onChange(nextFocus);
+        break;
+      case 'break':
+        if (value === 0) {
+          onChange(5);
+          break;
+        }
+        const breakValues = [5, 10, 20, 40];
+        const nextBreak = breakValues.find(v => v > value) ?? 40;
+        onChange(nextBreak);
+        break;
+    }
+  };
+
+  const handleDecrement = () => {
+    switch (type) {
+      case 'sessions':
+        onChange(Math.max(0, value - 1));
+        break;
+      case 'focus':
+        const focusValues = [0, 25, 50, 100, 200];
+        const prevFocus = focusValues.reverse().find(v => v < value) ?? 0;
+        onChange(prevFocus);
+        break;
+      case 'break':
+        const breakValues = [0, 5, 10, 20, 40];
+        const prevBreak = breakValues.reverse().find(v => v < value) ?? 0;
+        onChange(prevBreak);
+        break;
+    }
+  };
+
   return (
     <div className="flex items-center gap-4">
       <span className="text-xl font-bold">{label}</span>
       <div className="flex flex-col items-center">
-        <button 
-          onClick={() => onChange(value + 1)}
-          className="text-2xl">▲</button>
+        <button onClick={handleIncrement} className="text-2xl">▲</button>
         <input
           type="number"
           value={value.toString().padStart(2, '0')}
-          onChange={(e) => {
-            const newValue = Math.max(0, parseInt(e.target.value) || 0);
-            onChange(newValue);
-          }}
-          className={`size-10 rounded-lg text-center text-2xl font-bold outline-none shadow-lg shadow-black/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${
+          onChange={handleChange}
+          className={`size-10 rounded-lg text-center text-xl font-medium outline-none shadow-lg shadow-black/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${
             isLight ? 'bg-[#F8FAFC] text-gray-900' : 'bg-[#27374D] text-white'
           }`}
         />
-        <button 
-          onClick={() => onChange(Math.max(0, value - 1))}
-          className="text-2xl">▼</button>
+        <button onClick={handleDecrement} className="text-2xl">▼</button>
       </div>
       <span className="text-xl font-bold">{suffix}</span>
     </div>
