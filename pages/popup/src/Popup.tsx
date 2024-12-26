@@ -107,7 +107,10 @@ const Popup = () => {
           <div className="w-9/12">
             <h2 className="mb-3 text-left text-xl font-bold">Block List</h2>
             <div className="relative">
-              <div className={`mb-4 flex items-center rounded-lg ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'}`}>
+              {/* Search Bar */}
+              <div className={`mb-4 flex items-center rounded-lg shadow-lg shadow-black/20 ${
+                isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'
+              }`}>
                 <div className="flex size-10 items-center justify-center rounded-lg bg-[#024CAA]">
                   <span role="img" aria-label="search" className="text-2xl">🔎</span>
                 </div>
@@ -122,7 +125,9 @@ const Popup = () => {
 
               {/* Search Results Dropdown */}
               {searchResults.length > 0 && (
-                <div className={`absolute z-10 w-full rounded-lg ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'} shadow-lg`}>
+                <div className={`absolute z-10 w-full rounded-lg shadow-lg shadow-black/20 ${
+                  isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'
+                }`}>
                   {searchResults.map((app) => (
                     <button
                       key={app.name}
@@ -141,7 +146,9 @@ const Popup = () => {
               )}
               
               {/* Blocked Apps List */}
-              <div className={`rounded-lg p-3 ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'}`}>
+              <div className={`rounded-lg p-3 shadow-lg shadow-black/20 ${
+                isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'
+              }`}>
                 <div className="max-h-[300px] space-y-3 overflow-y-auto pr-2">
                   {blockedApps.length === 0 ? (
                     <div className="flex flex-col items-center py-12 text-center">
@@ -180,7 +187,7 @@ const Popup = () => {
         {/* Start Button - Reduced margin-top */}
         <div className="mt-2 flex justify-center">
           <button
-            className={`rounded-full px-8 py-2 text-xl font-bold ${
+            className={`rounded-full px-8 py-2 text-xl font-bold shadow-lg shadow-black/20 ${
               isLight ? 'bg-[#39A2DB] text-[#1E1E1E]' : 'bg-[#91C8E4] text-[#F8FAFC]'
             }`}>
             Start
@@ -207,11 +214,17 @@ const NumberInput = ({ label, value, onChange, suffix, isLight }: NumberInputPro
         <button 
           onClick={() => onChange(value + 1)}
           className="text-2xl">▲</button>
-        <div className={`flex size-10 items-center justify-center rounded-lg text-2xl ${
-          isLight ? 'bg-[#F8FAFC] text-black' : 'bg-[#27374D] text-white'
-        }`}>
-          {value.toString().padStart(2, '0')}
-        </div>
+        <input
+          type="number"
+          value={value.toString().padStart(2, '0')}
+          onChange={(e) => {
+            const newValue = Math.max(0, parseInt(e.target.value) || 0);
+            onChange(newValue);
+          }}
+          className={`size-10 rounded-lg text-center text-2xl font-bold outline-none shadow-lg shadow-black/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${
+            isLight ? 'bg-[#F8FAFC] text-gray-900' : 'bg-[#27374D] text-white'
+          }`}
+        />
         <button 
           onClick={() => onChange(Math.max(0, value - 1))}
           className="text-2xl">▼</button>
