@@ -25,8 +25,8 @@ type ZenStorage = BaseStorage<ZenSettings> & {
 
 const defaultSettings: ZenSettings = {
   sessions: 1,
-  focusMinutes: 3, // Human Comments: For testing, set to 3, otherwise set to 25
-  breakMinutes: 2, // Human Comments: For testing, set to 2, otherwise set to 5
+  focusMinutes: 25, // Human Comments: For testing, set to 3, otherwise set to 25
+  breakMinutes: 5, // Human Comments: For testing, set to 2, otherwise set to 5
   blockedApps: [],
   timerActive: false,
   currentSession: 1,
