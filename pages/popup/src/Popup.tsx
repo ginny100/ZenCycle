@@ -251,7 +251,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(0);
           break;
         }
-        const focusValues = [25, 50, 100, 200];
+        const focusValues = [1,2,3]; // Human Comments: For testing, set to [3], otherwise set to [25, 50, 100, 200]
         const closestFocus = focusValues.reduce((prev, curr) => 
           Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
         );
@@ -262,7 +262,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(0);
           break;
         }
-        const breakValues = [5, 10, 20, 40];
+        const breakValues = [1,2,3]; // Human Comments: For testing, set to [2], otherwise set to [5, 10, 20, 40]
         const closestBreak = breakValues.reduce((prev, curr) => 
           Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
         );
@@ -281,7 +281,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(25);
           break;
         }
-        const focusValues = [25, 50, 100, 200];
+        const focusValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
         const nextFocus = focusValues.find(v => v > value) ?? 200;
         onChange(nextFocus);
         break;
@@ -290,7 +290,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(5);
           break;
         }
-        const breakValues = [5, 10, 20, 40];
+        const breakValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
         const nextBreak = breakValues.find(v => v > value) ?? 40;
         onChange(nextBreak);
         break;
@@ -303,12 +303,12 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
         onChange(Math.max(0, value - 1));
         break;
       case 'focus':
-        const focusValues = [0, 25, 50, 100, 200];
+        const focusValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 25, 50, 100, 200]
         const prevFocus = focusValues.reverse().find(v => v < value) ?? 0;
         onChange(prevFocus);
         break;
       case 'break':
-        const breakValues = [0, 5, 10, 20, 40];
+        const breakValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 5, 10, 20, 40]
         const prevBreak = breakValues.reverse().find(v => v < value) ?? 0;
         onChange(prevBreak);
         break;
