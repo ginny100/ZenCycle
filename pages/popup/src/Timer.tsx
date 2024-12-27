@@ -54,23 +54,21 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
       setTimeLeft(prev => {
         if (prev <= 1) {
           if (timerState === 'focus') {
-            // Focus time is up
-            if (currentSession <= sessions) { // Changed from < to <= since we're still in current session
-              // Start break time for current session
+            if (currentSession <= sessions) {
+              // Start break time
               const newBreakTime = breakMinutes * 60;
               setTimerState('break');
               zenStorage.updateTimerState({
                 timerActive: true,
-                currentSession, // Keep same session number during break
+                currentSession,
                 timerState: 'break',
                 timeLeft: newBreakTime
               });
               return newBreakTime;
             }
           } else {
-            // Break time is up
             if (currentSession < sessions) {
-              // Start next session's focus time
+              // Start next session
               const nextSession = currentSession + 1;
               const newFocusTime = focusMinutes * 60;
               setTimerState('focus');
@@ -83,10 +81,14 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
               });
               return newFocusTime;
             } else {
-              // All sessions completed (after last break)
+              // All sessions completed - Keep timer view active
               setIsRunning(false);
+              setCurrentSession(sessions + 1);
+              setTimeLeft(0);
               zenStorage.updateTimerState({
-                timerActive: false,
+                timerActive: true, // Keep this true to maintain timer view
+                currentSession: sessions + 1,
+                timerState: 'focus',
                 timeLeft: 0
               });
               return 0;
@@ -123,6 +125,7 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
     if (isRunning) {
       setShowConfirm(true);
     } else {
+      // Reset timer state when going back
       zenStorage.updateTimerState({
         timerActive: false,
         currentSession: 1,
@@ -207,7 +210,7 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
                   style={{ 
                     filter: 'saturate(1.5) brightness(1.1)',
                     transform: 'scale(1.2)',
-                    opacity: index < currentSession ? 0.4 : 1
+                    opacity: index < (currentSession - 1) ? 1 : 0.4
                   }}
                 >
                   {lotus}

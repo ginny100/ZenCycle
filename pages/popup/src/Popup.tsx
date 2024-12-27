@@ -62,11 +62,21 @@ const Popup = () => {
     setBlockedApps(blockedApps.filter(app => app !== appToRemove));
   };
 
-  // Show timer view if timer is active
+  // Show timer view if timer is active or explicitly set
   if (zenSettings.timerActive || isTimerView) {
     return (
       <Timer 
-        onBack={() => setIsTimerView(false)} 
+        onBack={() => {
+          // Reset timer view state
+          setIsTimerView(false);
+          // Reset storage state
+          zenStorage.updateTimerState({
+            timerActive: false,
+            currentSession: 1,
+            timerState: 'focus',
+            timeLeft: 0
+          });
+        }} 
         sessions={sessions}
         focusMinutes={focusMinutes}
         breakMinutes={breakMinutes}
