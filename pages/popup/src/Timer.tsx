@@ -72,9 +72,9 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
     return () => clearInterval(timer);
   }, [isRunning, timerState, currentSession, sessions, focusMinutes, breakMinutes]);
 
-  // Calculate progress for circle animation (0 to 360 degrees)
+  // Calculate progress for circle animation (0 to 100)
   const totalSeconds = timerState === 'focus' ? focusMinutes * 60 : breakMinutes * 60;
-  const progress = 360 - ((timeLeft / totalSeconds) * 360); // Inverted back to show elapsed time
+  const progress = ((1 - timeLeft / totalSeconds) * 100); // Calculate elapsed time percentage
 
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
@@ -124,24 +124,33 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes }: TimerProps) => 
 
           {/* Timer Circle */}
           <div className="my-9 relative flex size-64 items-center justify-center">
-            {/* Background Circle - White */}
-            <div className="absolute size-full rounded-full border-[12px] border-white" />
+            {/* SVG Circle */}
+            <svg className="absolute size-full -rotate-90">
+              {/* Background Circle - White */}
+              <circle
+                cx="128"
+                cy="128"
+                r="120"
+                fill="none"
+                stroke="white"
+                strokeWidth="12"
+              />
+              {/* Progress Circle - Blue */}
+              <circle
+                cx="128"
+                cy="128"
+                r="120"
+                fill="none"
+                stroke={isLight ? '#769FCD' : '#B9D7EA'}
+                strokeWidth="12"
+                strokeDasharray={`${progress * 7.54} 754`}
+                strokeLinecap="round"
+                className="transition-all"
+              />
+            </svg>
             
-            {/* Progress Circle - Shows elapsed time in blue */}
-            <div 
-              className={`absolute size-full rounded-full border-[12px] transition-all ${
-                isLight ? 'border-[#769FCD]' : 'border-[#B9D7EA]'
-              }`}
-              style={{ 
-                clipPath: `polygon(50% 50%, 50% 0%, ${progress <= 180 
-                  ? `${50 + 50 * Math.sin(progress * Math.PI / 180)}% ${50 - 50 * Math.cos(progress * Math.PI / 180)}%` 
-                  : '100% 0%'}, ${progress > 180 
-                  ? `100% 100%, ${50 + 50 * Math.sin((progress - 180) * Math.PI / 180)}% ${50 + 50 * Math.cos((progress - 180) * Math.PI / 180)}%` 
-                  : ''})`
-              }}
-            />
             {/* Timer Display */}
-            <div className={`font-['Inria_Sans'] text-7xl font-normal ${
+            <div className={`z-10 font-['Inria_Sans'] text-7xl font-normal ${
               isLight ? 'text-[#1E1E1E]' : 'text-[#F8FAFC]'
             }`}>
               {formatTime(timeLeft)}
