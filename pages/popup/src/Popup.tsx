@@ -229,8 +229,8 @@ const Popup = () => {
           }}
           className={`rounded-full px-8 py-2 text-xl font-bold shadow-lg shadow-black/20 transition-colors ${
             isLight 
-              ? 'bg-[#39A2DB] hover:bg-[#769FCD] text-[#1E1E1E]' 
-              : 'bg-[#91C8E4] hover:bg-[#B9D7EA] text-[#F8FAFC]'
+              ? 'bg-[#39A2DB] text-[#1E1E1E] hover:bg-[#769FCD]' 
+              : 'bg-[#91C8E4] text-[#F8FAFC] hover:bg-[#B9D7EA]'
           }`}>
           Start
         </button>
@@ -251,6 +251,9 @@ interface NumberInputProps {
 const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value) || 0;
+    const focusValues = [1,2,3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
+    const breakValues = [1,2,3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
+    let closestValue;
     
     switch (type) {
       case 'sessions':
@@ -261,27 +264,29 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(0);
           break;
         }
-        const focusValues = [25, 50, 100, 200]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
-        const closestFocus = focusValues.reduce((prev, curr) => 
+        closestValue = focusValues.reduce((prev, curr) => 
           Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
         );
-        onChange(closestFocus);
+        onChange(closestValue);
         break;
       case 'break':
         if (newValue === 0) {
           onChange(0);
           break;
         }
-        const breakValues = [5, 10, 20, 40]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
-        const closestBreak = breakValues.reduce((prev, curr) => 
+        closestValue = breakValues.reduce((prev, curr) => 
           Math.abs(curr - newValue) < Math.abs(prev - newValue) ? curr : prev
         );
-        onChange(closestBreak);
+        onChange(closestValue);
         break;
     }
   };
 
   const handleIncrement = () => {
+    const focusValues = [1,2,3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
+    const breakValues = [1,2,3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
+    let nextValue;
+
     switch (type) {
       case 'sessions':
         onChange(Math.min(value + 1, 12));
@@ -291,36 +296,36 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           onChange(25);
           break;
         }
-        const focusValues = [25, 50, 100, 200]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
-        const nextFocus = focusValues.find(v => v > value) ?? 200;
-        onChange(nextFocus);
+        nextValue = focusValues.find(v => v > value) ?? 200;
+        onChange(nextValue);
         break;
       case 'break':
         if (value === 0) {
           onChange(5);
           break;
         }
-        const breakValues = [5, 10, 20, 40]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
-        const nextBreak = breakValues.find(v => v > value) ?? 40;
-        onChange(nextBreak);
+        nextValue = breakValues.find(v => v > value) ?? 40;
+        onChange(nextValue);
         break;
     }
   };
 
   const handleDecrement = () => {
+    const focusValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 25, 50, 100, 200]
+    const breakValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 5, 10, 20, 40]
+    let prevValue;
+    
     switch (type) {
       case 'sessions':
         onChange(Math.max(0, value - 1));
         break;
       case 'focus':
-        const focusValues = [0, 25, 50, 100, 200]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 25, 50, 100, 200]
-        const prevFocus = focusValues.reverse().find(v => v < value) ?? 0;
-        onChange(prevFocus);
+        prevValue = focusValues.reverse().find(v => v < value) ?? 0;
+        onChange(prevValue);
         break;
       case 'break':
-        const breakValues = [0, 5, 10, 20, 40]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 5, 10, 20, 40]
-        const prevBreak = breakValues.reverse().find(v => v < value) ?? 0;
-        onChange(prevBreak);
+        prevValue = breakValues.reverse().find(v => v < value) ?? 0;
+        onChange(prevValue);
         break;
     }
   };
@@ -334,7 +339,7 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
           type="number"
           value={value.toString().padStart(2, '0')}
           onChange={handleChange}
-          className={`size-10 rounded-lg text-center text-xl font-medium outline-none shadow-lg shadow-black/20 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${
+          className={`size-10 rounded-lg text-center text-xl font-medium shadow-lg shadow-black/20 outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${
             isLight ? 'bg-[#F8FAFC] text-gray-900' : 'bg-[#27374D] text-white'
           }`}
         />
