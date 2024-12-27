@@ -158,20 +158,26 @@ const Popup = () => {
                 <div className={`absolute z-10 w-full rounded-lg shadow-lg shadow-black/20 ${
                   isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'
                 }`}>
-                  {searchResults.map((app) => (
-                    <button
-                      key={app.name}
-                      onClick={() => handleAddApp(app.name)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleAddApp(app.name)}
-                      tabIndex={0}
-                      className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 ${
-                        isLight ? 'hover:bg-[#BCCCDC]' : 'hover:bg-[#9DB2BF]'
-                      }`}
-                    >
-                      <span className="text-xl">{app.icon}</span>
-                      <span>{app.name}</span>
-                    </button>
-                  ))}
+                  <div className="m-2 max-h-48 overflow-y-auto pr-2">
+                    {searchResults.map((app) => (
+                      <button
+                        key={app.name}
+                        onClick={() => handleAddApp(app.name)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleAddApp(app.name)}
+                        tabIndex={0}
+                        className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 ${
+                          isLight ? 'hover:bg-[#BCCCDC]' : 'hover:bg-[#9DB2BF]'
+                        }`}
+                      >
+                        <img 
+                          src={app.icon} 
+                          alt={`${app.name} icon`}
+                          className="size-4 align-middle"
+                        />
+                        <span>{app.name}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
               
@@ -196,7 +202,11 @@ const Popup = () => {
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            <span className="text-xl">{app?.icon}</span>
+                            <img 
+                              src={app?.icon} 
+                              alt={`${app?.name} icon`}
+                              className="size-4 align-middle"
+                            />
                             <span>{appName}</span>
                           </div>
                           <button 
