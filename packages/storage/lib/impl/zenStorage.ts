@@ -7,6 +7,11 @@ interface ZenSettings {
   focusMinutes: number;
   breakMinutes: number;
   blockedApps: string[];
+  timerActive: boolean;
+  currentSession: number;
+  timerState: 'focus' | 'break';
+  timeLeft: number;
+  lastTimestamp: number;
 }
 
 type ZenStorage = BaseStorage<ZenSettings> & {
@@ -15,6 +20,7 @@ type ZenStorage = BaseStorage<ZenSettings> & {
   updateBreakMinutes: (minutes: number) => Promise<void>;
   addBlockedApp: (appName: string) => Promise<void>;
   removeBlockedApp: (appName: string) => Promise<void>;
+  updateTimerState: (timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>) => Promise<void>;
 };
 
 const defaultSettings: ZenSettings = {
@@ -22,6 +28,11 @@ const defaultSettings: ZenSettings = {
   focusMinutes: 0,
   breakMinutes: 0,
   blockedApps: [],
+  timerActive: false,
+  currentSession: 1,
+  timerState: 'focus',
+  timeLeft: 0,
+  lastTimestamp: 0,
 };
 
 const storage = createStorage<ZenSettings>('zen-storage-key', defaultSettings, {
@@ -59,6 +70,13 @@ export const zenStorage: ZenStorage = {
     await storage.set(current => ({
       ...current,
       blockedApps: current.blockedApps.filter(app => app !== appName),
+    }));
+  },
+  updateTimerState: async (timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>) => {
+    await storage.set(current => ({
+      ...current,
+      ...timerState,
+      lastTimestamp: Date.now(),
     }));
   },
 }; 

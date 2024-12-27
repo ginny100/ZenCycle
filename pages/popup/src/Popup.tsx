@@ -62,8 +62,16 @@ const Popup = () => {
     setBlockedApps(blockedApps.filter(app => app !== appToRemove));
   };
 
-  if (isTimerView) {
-    return <Timer onBack={() => setIsTimerView(false)} />;
+  // Show timer view if timer is active
+  if (zenSettings.timerActive || isTimerView) {
+    return (
+      <Timer 
+        onBack={() => setIsTimerView(false)} 
+        sessions={sessions}
+        focusMinutes={focusMinutes}
+        breakMinutes={breakMinutes}
+      />
+    );
   }
 
   return (
@@ -197,10 +205,18 @@ const Popup = () => {
         </div>
       </div>
 
-      {/* Start Button - Matching position with Back button */}
+      {/* Start Button */}
       <div className="mt-4 flex justify-center">
         <button
-          onClick={() => setIsTimerView(true)}
+          onClick={() => {
+            zenStorage.updateTimerState({
+              timerActive: true,
+              currentSession: 1,
+              timerState: 'focus',
+              timeLeft: focusMinutes * 60
+            });
+            setIsTimerView(true);
+          }}
           className={`rounded-full px-8 py-2 text-xl font-bold shadow-lg shadow-black/20 transition-colors ${
             isLight 
               ? 'bg-[#39A2DB] hover:bg-[#769FCD] text-[#1E1E1E]' 
