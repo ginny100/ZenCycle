@@ -30,19 +30,28 @@
     "update-version": "bash update_version.sh"
   },
   "dependencies": {
+    "@rollup/plugin-sucrase": "^5.0.2",
     "eslint-plugin-tailwindcss": "^3.17.4",
+    "fflate": "^0.8.2",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "tsc-alias": "^1.8.10",
+    "ws": "8.18.0"
   },
   "devDependencies": {
+    "@laynezh/vite-plugin-lib-assets": "^0.5.23",
     "@types/chrome": "^0.0.270",
     "@types/node": "^20.16.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react-swc": "^3.7.1",
     "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
+    "deepmerge": "^4.3.1",
     "esbuild": "^0.23.0",
     "eslint": "8.57.0",
     "eslint-config-airbnb-typescript": "18.0.0",
@@ -57,6 +66,7 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
+    "tailwind-merge": "^2.4.0",
     "tailwindcss": "^3.4.14",
     "tslib": "^2.6.3",
     "turbo": "^2.0.12",

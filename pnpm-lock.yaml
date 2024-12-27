@@ -8,16 +8,31 @@ importers:
 
   .:
     dependencies:
+      '@rollup/plugin-sucrase':
+        specifier: ^5.0.2
+        version: 5.0.2(rollup@4.24.0)
       eslint-plugin-tailwindcss:
         specifier: ^3.17.4
         version: 3.17.4(tailwindcss@3.4.14(ts-node@10.9.2(@swc/core@1.9.3)(@types/node@20.16.10)(typescript@5.5.4)))
+      fflate:
+        specifier: ^0.8.2
+        version: 0.8.2
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tsc-alias:
+        specifier: ^1.8.10
+        version: 1.8.10
+      ws:
+        specifier: 8.18.0
+        version: 8.18.0
     devDependencies:
+      '@laynezh/vite-plugin-lib-assets':
+        specifier: ^0.5.23
+        version: 0.5.24(vite@5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1))
       '@types/chrome':
         specifier: ^0.0.270
         version: 0.0.270
@@ -36,12 +51,24 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.18.0
         version: 7.18.0(eslint@8.57.0)(typescript@5.5.4)
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.1
+        version: 3.7.1(vite@5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      concurrently:
+        specifier: ^9.0.1
+        version: 9.0.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      deepmerge:
+        specifier: ^4.3.1
+        version: 4.3.1
       esbuild:
         specifier: ^0.23.0
         version: 0.23.1
@@ -84,6 +111,9 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
+      tailwind-merge:
+        specifier: ^2.4.0
+        version: 2.5.2
       tailwindcss:
         specifier: ^3.4.14
         version: 3.4.14(ts-node@10.9.2(@swc/core@1.9.3)(@types/node@20.16.10)(typescript@5.5.4))
@@ -4613,6 +4643,14 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@laynezh/vite-plugin-lib-assets@0.5.24(vite@5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1))':
+    dependencies:
+      escape-string-regexp: 4.0.0
+      loader-utils: 3.3.1
+      mrmime: 1.0.1
+      semver: 7.6.3
+      vite: 5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1)
+
   '@laynezh/vite-plugin-lib-assets@0.5.24(vite@5.4.9(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1))':
     dependencies:
       escape-string-regexp: 4.0.0
@@ -4947,6 +4985,13 @@ snapshots:
       eslint-visitor-keys: 3.4.3
 
   '@ungap/structured-clone@1.2.0': {}
+
+  '@vitejs/plugin-react-swc@3.7.1(vite@5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1))':
+    dependencies:
+      '@swc/core': 1.9.3
+      vite: 5.4.9(@types/node@20.16.10)(sass@1.79.4)(terser@5.34.1)
+    transitivePeerDependencies:
+      - '@swc/helpers'
 
   '@vitejs/plugin-react-swc@3.7.1(vite@5.4.9(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1))':
     dependencies:
