@@ -1,0 +1,34 @@
+{
+    "name": "ZenCycle",
+    "description": "Regain your focus, regain your life",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "icons": {
+        "16": "assets/icon-16.png",
+        "32": "assets/icon-32.png",
+        "48": "assets/icon-48.png",
+        "128": "assets/icon-128.png"
+    },
+    "action": {
+        "default_icon": {
+            "16": "assets/icon-16.png",
+            "32": "assets/icon-32.png"
+        },
+        "default_title": "ZenCycle",
+        "default_popup": "pages/popup/index.html"
+    },
+    "permissions": [
+        "scripting",
+        "tabs",
+        "storage"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["pages/content/src/index.tsx"]
+    }],
+    "default_locale": "en",
+    "_locales_dir": "locales"
+}
