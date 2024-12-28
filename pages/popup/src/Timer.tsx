@@ -18,14 +18,15 @@ const Timer = ({ onBack, zenSettings }: TimerProps) => {
   const isLight = theme === 'light';
 
   // Initialize state from storage or props
-  const currentSession = zenSettings.timerActive ? zenSettings.currentSession : 1;
-  const timerState = zenSettings.timerActive ? zenSettings.timerState : ZenTimerState.Focus;
-  const timeLeft = zenSettings.timerActive ? zenSettings.timeLeft : zenSettings.focusMinutes * 60;
+  const currentSession = zenSettings.currentSession; // 1-based index of the current session
+  const timerState = zenSettings.timerState;
+  const timeLeft = zenSettings.timeLeft;
   const isRunning = zenSettings.timerActive;
   const [showConfirm, setShowConfirm] = useState(false);
 
   // Calculate progress for circle animation (0 to 100)
-  const totalSeconds = timerState === 'focus' ? zenSettings.focusMinutes * 60 : zenSettings.breakMinutes * 60;
+  const totalSeconds =
+    timerState === ZenTimerState.Focus ? zenSettings.focusMinutes * 60 : zenSettings.breakMinutes * 60;
   const progress = (1 - timeLeft / totalSeconds) * 100; // Calculate elapsed time percentage
 
   // Format time as MM:SS
@@ -58,7 +59,7 @@ const Timer = ({ onBack, zenSettings }: TimerProps) => {
           className={`mx-8 my-9 rounded-xl p-4 shadow-lg shadow-black/20 ${isLight ? 'bg-[#F8FAFC]' : 'bg-[#27374D]'}`}>
           <div className="flex flex-col items-center justify-between">
             <h1 className={`font-['Agbalumo'] text-4xl transition-all ${isLight ? 'text-gray-900' : 'text-white'}`}>
-              {timerState === 'focus' ? 'Focus Time' : 'Break Time'}
+              {timerState === ZenTimerState.Focus ? 'Focus Time' : 'Break Time'}
             </h1>
 
             {/* Timer Circle */}
@@ -101,20 +102,23 @@ const Timer = ({ onBack, zenSettings }: TimerProps) => {
             <div className="flex gap-4">
               {Array(zenSettings.sessions)
                 .fill('🪷')
-                .map((lotus, index) => (
-                  <span
-                    key={index}
-                    role="img"
-                    aria-label="lotus"
-                    className="text-4xl"
-                    style={{
-                      filter: 'saturate(1.5) brightness(1.1)',
-                      transform: 'scale(1.2)',
-                      opacity: index < currentSession - 1 ? 1 : 0.4,
-                    }}>
-                    {lotus}
-                  </span>
-                ))}
+                .map((lotus, index) => {
+                  const one_based_idx = index + 1;
+                  return (
+                    <span
+                      key={index}
+                      role="img"
+                      aria-label="lotus"
+                      className="text-4xl"
+                      style={{
+                        filter: 'saturate(1.5) brightness(1.1)',
+                        transform: 'scale(1.2)',
+                        opacity: one_based_idx < currentSession ? 1 : 0.4,
+                      }}>
+                      {lotus}
+                    </span>
+                  );
+                })}
             </div>
           </div>
         </div>

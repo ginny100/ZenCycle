@@ -19,7 +19,7 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
   const [blockedApps, setBlockedApps] = useState(zenSettings.blockedApps ?? []);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
-  const [isTimerView, setIsTimerView] = useState(zenSettings.timerActive ?? false);
+  const shouldShowTimer = zenSettings.timerActive || zenSettings.currentSession === zenSettings.sessions + 1; // Show timer when timer is active or when the last session is done
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
@@ -51,13 +51,12 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
   };
 
   // Show timer view if timer is active or explicitly set
-  if (isTimerView) {
+  if (shouldShowTimer) {
     return (
       <>
         {zenSettings && (
           <Timer
             onBack={() => {
-              setIsTimerView(false);
               // trigger background script
               chrome.runtime.sendMessage({ type: 'STOP_TIMER' }, () => {
                 console.log('🛑 Trigger time stop');
@@ -71,7 +70,6 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
   }
 
   const triggerStartTimer = () => {
-    setIsTimerView(true);
     // trigger background script
     chrome.runtime.sendMessage(
       { type: 'START_TIMER', payload: { focusMinutes, breakMinutes, sessions, blockedApps } },

@@ -17,7 +17,7 @@ export default function App() {
   const shouldBlock = useMemo(() => {
     const currentAppName = availableApps.find(app => app.url === window.location.origin)?.name;
     if (!currentAppName) return false;
-    console.log('content-ui: 🎭 current App NAme is ', currentAppName);
+    console.log('content-ui: 🎭 current App Name is ', currentAppName);
     console.log('content-ui: 🎭 blockedApps = ', zenSettings?.blockedApps);
     return zenSettings?.timerState === ZenTimerState.Focus && zenSettings?.blockedApps.includes(currentAppName);
   }, [zenSettings]);
