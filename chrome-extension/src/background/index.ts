@@ -64,8 +64,16 @@ async function startTimer(focusMinutes: number, breakMinutes: number, sessions: 
           }
           break;
         case ZenTimerState.Break:
+          // All sessions are done
           if (state.currentSession >= sessions) {
-            stopTimer({ ...state, ...endState });
+            const allDoneState = {
+              timerState: ZenTimerState.Break,
+              timeLeft: 0,
+              currentSession: state.currentSession + 1,
+              timerActive: false,
+            };
+            stopTimer({ ...state, ...allDoneState });
+            // There're more sessions to go
           } else {
             const nextState = {
               timerState: ZenTimerState.Focus,
