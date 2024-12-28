@@ -1,23 +1,25 @@
 import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
+import type { ZenSettings } from '@extension/storage';
 import { themeStorage, zenStorage } from '@extension/storage';
 import { useState } from 'react';
 import { availableApps, type App } from '@extension/shared/lib/constants/apps';
 import Timer from './Timer';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
-const Popup = () => {
+const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
   const theme = useStorage(themeStorage);
-  const zenSettings = useStorage(zenStorage);
+
+  console.log('zenSettings loaded is ', zenSettings);
   const isLight = theme === 'light';
 
-  const [sessions, setSessions] = useState(zenSettings?.sessions ?? 4);
-  const [focusMinutes, setFocusMinutes] = useState(zenSettings?.focusMinutes ?? 25);
-  const [breakMinutes, setBreakMinutes] = useState(zenSettings?.breakMinutes ?? 5);
-  const [blockedApps, setBlockedApps] = useState(zenSettings?.blockedApps ?? []);
+  const [sessions, setSessions] = useState(zenSettings.sessions ?? 4);
+  const [focusMinutes, setFocusMinutes] = useState(zenSettings.focusMinutes ?? 25);
+  const [breakMinutes, setBreakMinutes] = useState(zenSettings.breakMinutes ?? 5);
+  const [blockedApps, setBlockedApps] = useState(zenSettings.blockedApps ?? []);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
-  const [isTimerView, setIsTimerView] = useState(zenSettings?.timerActive ?? false);
+  const [isTimerView, setIsTimerView] = useState(zenSettings.timerActive ?? false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
@@ -359,4 +361,9 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
   );
 };
 
-export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);
+const PopupWrapper = () => {
+  const zenSettings = useStorage(zenStorage);
+
+  return <>{zenSettings && <Popup zenSettings={zenSettings} />}</>;
+};
+export default withErrorBoundary(withSuspense(PopupWrapper, <div> Loading ... </div>), <div> Error Occur </div>);
