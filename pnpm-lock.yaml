@@ -286,6 +286,15 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
 
+  pages/background:
+    dependencies:
+      '@extension/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@extension/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
+
   pages/content:
     dependencies:
       '@extension/shared':
