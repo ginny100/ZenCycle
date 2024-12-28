@@ -1,4 +1,4 @@
-import { availableApps } from '@src/constants/apps';
+import { availableApps } from '@extension/shared/lib/constants/apps';
 
 const AppList = () => {
   return (

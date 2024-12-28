@@ -2,7 +2,7 @@ import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage, zenStorage } from '@extension/storage';
 import { useState, useEffect } from 'react';
-import { availableApps, type App } from './constants/apps';
+import { availableApps, type App } from '@extension/shared/lib/constants/apps';
 import Timer from './Timer';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
@@ -11,10 +11,10 @@ const Popup = () => {
   const zenSettings = useStorage(zenStorage);
   const isLight = theme === 'light';
 
-  const [sessions, setSessions] = useState(zenSettings.sessions);
-  const [focusMinutes, setFocusMinutes] = useState(zenSettings.focusMinutes);
-  const [breakMinutes, setBreakMinutes] = useState(zenSettings.breakMinutes);
-  const [blockedApps, setBlockedApps] = useState(zenSettings.blockedApps);
+  const [sessions, setSessions] = useState(zenSettings?.sessions ?? 4);
+  const [focusMinutes, setFocusMinutes] = useState(zenSettings?.focusMinutes ?? 25);
+  const [breakMinutes, setBreakMinutes] = useState(zenSettings?.breakMinutes ?? 5);
+  const [blockedApps, setBlockedApps] = useState(zenSettings?.blockedApps ?? []);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
   const [isTimerView, setIsTimerView] = useState(false);
@@ -63,7 +63,7 @@ const Popup = () => {
   };
 
   // Show timer view if timer is active or explicitly set
-  if (zenSettings.timerActive || isTimerView) {
+  if (zenSettings?.timerActive || isTimerView) {
     return (
       <Timer 
         onBack={() => {

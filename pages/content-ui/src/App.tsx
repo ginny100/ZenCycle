@@ -15,7 +15,7 @@ export default function App() {
       <div className="flex gap-1 text-blue-500">
         Edit <strong className="text-blue-700">pages/content-ui/src/app.tsx</strong> and save to reload.
       </div>
-      <Button theme={theme} onClick={themeStorage.toggle}>
+      <Button theme={theme ?? 'light'} onClick={themeStorage.toggle}>
         Toggle Theme
       </Button>
     </div>
