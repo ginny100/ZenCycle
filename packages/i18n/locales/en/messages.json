@@ -1,20 +1,20 @@
 {
-    "extensionDescription": {
-        "description": "Extension description",
-        "message": "ZenCycle is a Chrome extension that helps you regain your focus and regain your life"
-    },
-    "extensionName": {
-        "description": "Extension name",
-        "message": "ZenCycle"
-    },
-    "toggleTheme": {
-        "message": "Toggle theme"
-    },
-    "loading": {
-        "message": "Loading..."
-    },
-    "greeting": {
-        "description": "Greeting message",
-        "message": "Regain your focus, regain your life"
-    }
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "ZenCycle is a Chrome extension that helps you regain your focus and regain your life"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "ZenCycle"
+  },
+  "toggleTheme": {
+    "message": "Toggle theme"
+  },
+  "loading": {
+    "message": "Loading..."
+  },
+  "greeting": {
+    "description": "Greeting message",
+    "message": "Regain your focus, regain your life"
+  }
 }

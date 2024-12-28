@@ -1,6 +1,0 @@
-{
-    "dependencies": {
-        "@extension/storage": "workspace:*",
-        "@extension/shared": "workspace:*"
-    }
-}

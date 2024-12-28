@@ -2,25 +2,38 @@ import { StorageEnum } from '../base/enums';
 import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
 
-interface ZenSettings {
+export enum ZenTimerState {
+  Focus = 'focus',
+  Break = 'break',
+  None = 'none',
+}
+
+export enum ZenEvent {
+  StartTimer = 'START_TIMER',
+  StopTimer = 'STOP_TIMER',
+}
+
+export interface ZenSettings {
   sessions: number;
   focusMinutes: number;
   breakMinutes: number;
   blockedApps: string[];
   timerActive: boolean;
   currentSession: number;
-  timerState: 'focus' | 'break';
+  timerState: ZenTimerState;
   timeLeft: number;
   lastTimestamp: number;
 }
 
-type ZenStorage = BaseStorage<ZenSettings> & {
+export type ZenStorage = BaseStorage<ZenSettings> & {
   updateSessions: (sessions: number) => Promise<void>;
   updateFocusMinutes: (minutes: number) => Promise<void>;
   updateBreakMinutes: (minutes: number) => Promise<void>;
   addBlockedApp: (appName: string) => Promise<void>;
   removeBlockedApp: (appName: string) => Promise<void>;
-  updateTimerState: (timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>) => Promise<void>;
+  updateTimerState: (
+    timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>,
+  ) => Promise<void>;
 };
 
 const defaultSettings: ZenSettings = {
@@ -30,12 +43,12 @@ const defaultSettings: ZenSettings = {
   blockedApps: [],
   timerActive: false,
   currentSession: 1,
-  timerState: 'focus',
+  timerState: ZenTimerState.None,
   timeLeft: 0,
   lastTimestamp: 0,
 };
 
-const storage = createStorage<ZenSettings>('zen-storage-key', defaultSettings, {
+const storage: BaseStorage<ZenSettings> = createStorage<ZenSettings>('zen-storage-key', defaultSettings, {
   storageEnum: StorageEnum.Local,
   liveUpdate: true,
 });
@@ -72,11 +85,13 @@ export const zenStorage: ZenStorage = {
       blockedApps: current.blockedApps.filter(app => app !== appName),
     }));
   },
-  updateTimerState: async (timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>) => {
+  updateTimerState: async (
+    timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>,
+  ) => {
     await storage.set(current => ({
       ...current,
       ...timerState,
       lastTimestamp: Date.now(),
     }));
   },
-}; 
+};

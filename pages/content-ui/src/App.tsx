@@ -1,23 +1,26 @@
-import { useEffect } from 'react';
-import { Button } from '@extension/ui';
+import { availableApps } from '@extension/shared/lib/constants/apps';
+
+// import { useEffect } from 'react';
+// import { Button } from '@extension/ui';
 import { useStorage } from '@extension/shared';
-import { themeStorage } from '@extension/storage';
+import { zenStorage, ZenTimerState } from '@extension/storage';
+import { useEffect, useMemo } from 'react';
+import BlockView from './BlockView';
 
 export default function App() {
-  const theme = useStorage(themeStorage);
+  const zenSettings = useStorage(zenStorage);
 
   useEffect(() => {
-    console.log('content ui loaded');
+    console.log('content-ui: 🎭 App component loaded ');
   }, []);
 
-  return (
-    <div className="flex items-center justify-between gap-2 rounded bg-blue-100 px-2 py-1">
-      <div className="flex gap-1 text-blue-500">
-        Edit <strong className="text-blue-700">pages/content-ui/src/app.tsx</strong> and save to reload.
-      </div>
-      <Button theme={theme ?? 'light'} onClick={themeStorage.toggle}>
-        Toggle Theme
-      </Button>
-    </div>
-  );
+  const shouldBlock = useMemo(() => {
+    const currentAppName = availableApps.find(app => app.url === window.location.origin)?.name;
+    if (!currentAppName) return false;
+    console.log('content-ui: 🎭 current App NAme is ', currentAppName);
+    console.log('content-ui: 🎭 blockedApps = ', zenSettings?.blockedApps);
+    return zenSettings?.timerState === ZenTimerState.Focus && zenSettings?.blockedApps.includes(currentAppName);
+  }, [zenSettings]);
+
+  return <div>{shouldBlock && <BlockView />}</div>;
 }

@@ -15,14 +15,12 @@ const ConfirmDialog = ({ isOpen, onConfirm, onCancel }: ConfirmDialogProps) => {
         <div className="flex justify-center gap-4">
           <button
             onClick={onCancel}
-            className="rounded-full bg-gray-200 px-8 py-2 font-bold text-gray-700 hover:bg-gray-300"
-          >
+            className="rounded-full bg-gray-200 px-8 py-2 font-bold text-gray-700 hover:bg-gray-300">
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="rounded-full bg-[#39A2DB] px-8 py-2 font-bold text-white hover:bg-[#769FCD]"
-          >
+            className="rounded-full bg-[#39A2DB] px-8 py-2 font-bold text-white hover:bg-[#769FCD]">
             OK
           </button>
         </div>
@@ -31,4 +29,4 @@ const ConfirmDialog = ({ isOpen, onConfirm, onCancel }: ConfirmDialogProps) => {
   );
 };
 
-export default ConfirmDialog; 
+export default ConfirmDialog;
