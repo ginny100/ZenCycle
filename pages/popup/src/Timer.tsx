@@ -7,25 +7,25 @@ import ConfirmDialog from './components/ConfirmDialog';
 
 interface TimerProps {
   onBack: () => void;
-  sessions: number;
-  focusMinutes: number;
-  breakMinutes: number;
+  // sessions: number;
+  // focusMinutes: number;
+  // breakMinutes: number;
   zenSettings: ZenSettings;
 }
 
-const Timer = ({ onBack, sessions, focusMinutes, breakMinutes, zenSettings }: TimerProps) => {
+const Timer = ({ onBack, zenSettings }: TimerProps) => {
   const theme = useStorage(themeStorage);
   const isLight = theme === 'light';
 
   // Initialize state from storage or props
   const currentSession = zenSettings.timerActive ? zenSettings.currentSession : 1;
   const timerState = zenSettings.timerActive ? zenSettings.timerState : ZenTimerState.Focus;
-  const timeLeft = zenSettings.timerActive ? zenSettings.timeLeft : focusMinutes * 60;
+  const timeLeft = zenSettings.timerActive ? zenSettings.timeLeft : zenSettings.focusMinutes * 60;
   const isRunning = zenSettings.timerActive;
   const [showConfirm, setShowConfirm] = useState(false);
 
   // Calculate progress for circle animation (0 to 100)
-  const totalSeconds = timerState === 'focus' ? focusMinutes * 60 : breakMinutes * 60;
+  const totalSeconds = timerState === 'focus' ? zenSettings.focusMinutes * 60 : zenSettings.breakMinutes * 60;
   const progress = (1 - timeLeft / totalSeconds) * 100; // Calculate elapsed time percentage
 
   // Format time as MM:SS
@@ -99,7 +99,7 @@ const Timer = ({ onBack, sessions, focusMinutes, breakMinutes, zenSettings }: Ti
 
             {/* Lotus Icons */}
             <div className="flex gap-4">
-              {Array(sessions)
+              {Array(zenSettings.sessions)
                 .fill('🪷')
                 .map((lotus, index) => (
                   <span

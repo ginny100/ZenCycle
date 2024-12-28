@@ -1,7 +1,7 @@
 import '@src/Popup.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { themeStorage, zenStorage } from '@extension/storage';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { availableApps, type App } from '@extension/shared/lib/constants/apps';
 import Timer from './Timer';
 import ThemeSwitcher from './components/ThemeSwitcher';
@@ -18,19 +18,6 @@ const Popup = () => {
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
   const [isTimerView, setIsTimerView] = useState(zenSettings?.timerActive ?? false);
-
-  // Update storage when values change
-  useEffect(() => {
-    zenStorage.updateSessions(sessions);
-  }, [sessions]);
-
-  useEffect(() => {
-    zenStorage.updateFocusMinutes(focusMinutes);
-  }, [focusMinutes]);
-
-  useEffect(() => {
-    zenStorage.updateBreakMinutes(breakMinutes);
-  }, [breakMinutes]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
@@ -74,9 +61,6 @@ const Popup = () => {
                 console.log('🛑 Trigger time stop');
               });
             }}
-            sessions={sessions}
-            focusMinutes={focusMinutes}
-            breakMinutes={breakMinutes}
             zenSettings={zenSettings}
           />
         )}
@@ -110,7 +94,10 @@ const Popup = () => {
               <NumberInput
                 label="Let's do"
                 value={sessions}
-                onChange={setSessions}
+                onChange={value => {
+                  setSessions(value);
+                  zenStorage.updateSessions(value);
+                }}
                 suffix="sessions"
                 isLight={isLight}
                 type="sessions"
@@ -125,7 +112,10 @@ const Popup = () => {
               <NumberInput
                 label="Focus:"
                 value={focusMinutes}
-                onChange={setFocusMinutes}
+                onChange={value => {
+                  setFocusMinutes(value);
+                  zenStorage.updateFocusMinutes(value);
+                }}
                 suffix="minutes"
                 isLight={isLight}
                 type="focus"
@@ -140,7 +130,10 @@ const Popup = () => {
               <NumberInput
                 label="Break:"
                 value={breakMinutes}
-                onChange={setBreakMinutes}
+                onChange={value => {
+                  setBreakMinutes(value);
+                  zenStorage.updateBreakMinutes(value);
+                }}
                 suffix="minutes"
                 isLight={isLight}
                 type="break"
