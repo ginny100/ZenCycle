@@ -17,7 +17,7 @@ const Popup = () => {
   const [blockedApps, setBlockedApps] = useState(zenSettings?.blockedApps ?? []);
   const [newBlockedApp, setNewBlockedApp] = useState('');
   const [searchResults, setSearchResults] = useState<App[]>([]);
-  const isTimerView = zenSettings?.timerActive;
+  const [isTimerView, setIsTimerView] = useState(zenSettings?.timerActive ?? false);
 
   // Update storage when values change
   useEffect(() => {
@@ -49,7 +49,6 @@ const Popup = () => {
 
   const handleAddApp = (appName: string) => {
     if (!blockedApps.includes(appName)) {
-      alert('Store the blocked apps in the storage ' + appName);
       zenStorage.addBlockedApp(appName);
       setBlockedApps([...blockedApps, appName]);
       setNewBlockedApp('');
@@ -69,6 +68,7 @@ const Popup = () => {
         {zenSettings && (
           <Timer
             onBack={() => {
+              setIsTimerView(false);
               // trigger background script
               chrome.runtime.sendMessage({ type: 'STOP_TIMER' }, () => {
                 console.log('🛑 Trigger time stop');
@@ -85,6 +85,7 @@ const Popup = () => {
   }
 
   const triggerStartTimer = () => {
+    setIsTimerView(true);
     // trigger background script
     chrome.runtime.sendMessage(
       { type: 'START_TIMER', payload: { focusMinutes, breakMinutes, sessions, blockedApps } },
