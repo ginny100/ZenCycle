@@ -11,7 +11,7 @@ const ConfirmDialog = ({ isOpen, onConfirm, onCancel }: ConfirmDialogProps) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="w-80 rounded-xl bg-white p-6 text-center shadow-lg">
         <div className="mb-4 text-4xl">🪷</div>
-        <h2 className="mb-6 text-xl font-bold">Timer is still running. Are you sure you want to go back?</h2>
+        <h2 className="mb-6 text-xl font-bold">Timer is still running. Are you sure you want to go back and cancel the whole progress?</h2>
         <div className="flex justify-center gap-4">
           <button
             onClick={onCancel}
