@@ -18,6 +18,31 @@ const stopTimer = (newState: ZenSettings) => {
   }
   zenStorage.set(newState);
 };
+
+// Create notification when timer ends
+const createNotification = (type: ZenTimerState) => {
+  const notificationId = `zen-${Date.now()}`;
+
+  // // Play notification sound
+  // const audio = new Audio(chrome.runtime.getURL('../public/times-up.wav'));
+  // audio.play().catch(err => console.log('🔊 Error playing sound:', err));
+
+  // Create notification
+  chrome.notifications.create(notificationId, {
+    type: 'basic',
+    iconUrl: '/lotus-icon.png',
+    title: type === ZenTimerState.Focus ? 
+      'Focus Time Complete!' : 
+      'Break Time Complete!',
+    message: type === ZenTimerState.Focus ? 
+      'Great job staying focused! Time for a break.' : 
+      'Break is over. Ready to focus again?',
+    priority: 2
+  }, () => {
+    console.log('🔔 Notification created with ID:', notificationId);
+  });
+};
+
 // Define a function to start or stop the timer
 async function startTimer(focusMinutes: number, breakMinutes: number, sessions: number, blockedApps: string[]) {
   const initialState: ZenSettings = {
@@ -53,6 +78,7 @@ async function startTimer(focusMinutes: number, breakMinutes: number, sessions: 
       // Phase change logic
       switch (state.timerState) {
         case ZenTimerState.Focus:
+          createNotification(ZenTimerState.Focus);
           {
             const nextState = {
               timerState: ZenTimerState.Break,
@@ -64,6 +90,7 @@ async function startTimer(focusMinutes: number, breakMinutes: number, sessions: 
           }
           break;
         case ZenTimerState.Break:
+          createNotification(ZenTimerState.Break);
           // All sessions are done
           if (state.currentSession >= sessions) {
             const allDoneState = {
@@ -114,10 +141,15 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   sendResponse({ status: 'ok' });
 });
 
-// trigger stop timer immediately when first launched
+// Trigger stop timer immediately when first launched
 chrome.runtime.onInstalled.addListener(() => {
   console.log('🚀 Extension Installed');
   chrome.runtime.sendMessage({ type: ZenEvent.StopTimer }, () => {
     console.log('🛑 Initial Timer Stopped');
   });
+});
+
+// Add notification click listener
+chrome.notifications.onClicked.addListener((notificationId) => {
+  console.log('🖱️ Notification Clicked:', notificationId);
 });

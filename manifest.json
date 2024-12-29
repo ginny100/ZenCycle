@@ -20,7 +20,8 @@
     "permissions": [
         "scripting",
         "tabs",
-        "storage"
+        "storage",
+        "notifications"
     ],
     "host_permissions": [
         "<all_urls>"
@@ -30,5 +31,9 @@
         "js": ["pages/content/src/index.tsx"]
     }],
     "default_locale": "en",
-    "_locales_dir": "locales"
+    "_locales_dir": "locales",
+    "web_accessible_resources": [{
+        "resources": ["chrome-extension/public/icon-128.png", "chrome-extension/public/times-up.wav"],
+        "matches": ["<all_urls>"]
+    }]
 }
