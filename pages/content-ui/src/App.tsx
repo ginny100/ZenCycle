@@ -1,7 +1,4 @@
 import { availableApps } from '@extension/shared/lib/constants/apps';
-
-// import { useEffect } from 'react';
-// import { Button } from '@extension/ui';
 import { useStorage } from '@extension/shared';
 import { zenStorage, ZenTimerState } from '@extension/storage';
 import { useEffect, useMemo } from 'react';
@@ -21,6 +18,19 @@ export default function App() {
     console.log('content-ui: 🎭 blockedApps = ', zenSettings?.blockedApps);
     return zenSettings?.timerState === ZenTimerState.Focus && zenSettings?.blockedApps.includes(currentAppName);
   }, [zenSettings]);
+
+  useEffect(() => {
+    if (shouldBlock) {
+      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+    } else {
+      document.documentElement.style.setProperty('overflow', 'auto', 'important');
+    }
+
+    // Cleanup when component unmounts
+    return () => {
+      document.documentElement.style.setProperty('overflow', 'auto', 'important');
+    };
+  }, [shouldBlock]);
 
   return <div>{shouldBlock && <BlockView />}</div>;
 }
