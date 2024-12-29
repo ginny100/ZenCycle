@@ -19,18 +19,21 @@ const stopTimer = (newState: ZenSettings) => {
   zenStorage.set(newState);
 };
 
-// Create notification when timer ends
+const playNotificationSound = () => {
+  const audio = new Audio(chrome.runtime.getURL('../public/times-up.wav'));
+  audio.play().catch(err => console.log('🔊 Error playing sound:', err));
+};
+
 const createNotification = (type: ZenTimerState) => {
   const notificationId = `zen-${Date.now()}`;
 
-  // // Play notification sound
-  // const audio = new Audio(chrome.runtime.getURL('../public/times-up.wav'));
-  // audio.play().catch(err => console.log('🔊 Error playing sound:', err));
+  // Play notification sound
+  playNotificationSound();
 
   // Create notification
   chrome.notifications.create(notificationId, {
     type: 'basic',
-    iconUrl: '/lotus-icon.png',
+    iconUrl: chrome.runtime.getURL('lotus-icon.png'),
     title: type === ZenTimerState.Focus ? 
       'Focus Time Complete!' : 
       'Break Time Complete!',
