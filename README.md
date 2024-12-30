@@ -22,11 +22,12 @@
 - [Features](#features)
 - [Tech Stacks](#tech-stacks)
 - [Getting started](#getting-started)
-    - [Chrome](#for-chrome)
-    - [Firefox](#for-firefox)
+    - [Chrome](#for-chrome-)
+    - [Firefox](#for-firefox-)
 - [Install dependency](#install-dependency-for-turborepo)
-    - [For root](#for-root)
-    - [For module](#for-module)
+    - [For root](#for-root-)
+    - [For module](#for-module-)
+- [Troubleshooting](#troubleshooting)
 - [Reference](#reference)
 
 ## Intro
@@ -122,81 +123,6 @@ Then, depending on the target browser:
 
 `package` - Name of the package you want to install e.g. `nodemon` \
 `module-name` - You can find it inside each `package.json` under the key `name`, e.g. `@extension/content-script`, you can use only `content-script` without `@extension/` prefix
-
-## Environment variables
-
-To add an environment variable:
-
-1. Copy `.example.env` to `.env` (in the same directory)
-2. Add a new record inside `.env`, prefixed with `VITE_`, e.g. `VITE_MY_API_KEY=...`
-3. Edit `./vite-env.d.ts` and in the `ImportMetaEnv` interface, add your variable with the appropriate type, e.g.
-
-   `readonly VITE_MY_API_KEY: string;`
-4. Then you can read the variable via `import.meta.env.VITE_MY_API_KEY` (learn more at [Env Variables and Modes](https://vite.dev/guide/env-and-mode))
-
-#### If you want to set it for each package independently:
-
-1. Create `.env` inside that package
-2. Open related `vite.config.mts` and add `envDir: '.'` at the end of this config
-3. Rest steps like above
-
-#### Remember you can't use global and local at the same time for the same package(It will be overwritten)
-
-## Boilerplate structure <a name="structure"></a>
-
-### Chrome extension <a name="structure-chrome-extension"></a>
-
-The extension lives in the `chrome-extension` directory and includes the following files:
-
-- [`manifest.js`](chrome-extension/manifest.js) - script that outputs the `manifest.json`
-- [`src/background`](chrome-extension/src/background) - [background script](https://developer.chrome.com/docs/extensions/mv3/background_pages/) 
-  (`background.service_worker` in manifest.json)
-- [`public`](chrome-extension/public/) - icons referenced in the manifest; content CSS for user's page injection
-
-> [!IMPORTANT]
-> To facilitate development, the boilerplate is configured to "Read and change all your data on all websites".
-> In production, it's best practice to limit the premissions to only the strictly necessary websites. See
-> [Declaring permissions](https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions)
-> and edit `manifest.js` accordingly.
-
-### Pages <a name="structure-pages"></a>
-
-Code that is transpiled to be part of the extension lives in the [pages](pages/) directory.
-
-- [`content`](pages/content/) - [content scripts](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)
-  (`content_scripts` in manifest.json)
-- [`content-ui`](pages/content-ui) - React UI rendered in the current page (you can see it at the very bottom when you get started)
-  (`content_scripts` in manifest.json)
-- [`content-runtime`](pages/content-runtime/src/) - [injected content scripts](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts#functionality);
-  this can be injected from `popup` like standard `content`
-- [`devtools`](pages/devtools/) - [extend the browser DevTools](https://developer.chrome.com/docs/extensions/how-to/devtools/extend-devtools#creating)
-  (`devtools_page` in manifest.json)
-- [`devtools-panel`](pages/devtools-panel/) - [DevTools panel](https://developer.chrome.com/docs/extensions/reference/api/devtools/panels)
-  for [devtools](pages/devtools/src/index.ts)
-- [`new-tab`](pages/new-tab/) - [override the default New Tab page](https://developer.chrome.com/docs/extensions/develop/ui/override-chrome-pages)
-  (`chrome_url_overrides.newtab` in manifest.json)
-- [`options`](pages/options/) - [options page](https://developer.chrome.com/docs/extensions/develop/ui/options-page)
-  (`options_page` in manifest.json)
-- [`popup`](pages/popup/) - [popup](https://developer.chrome.com/docs/extensions/reference/api/action#popup) shown when clicking the extension in the toolbar
-  (`action.default_popup` in manifest.json)
-- [`side-panel`](pages/side-panel/) - [sidepanel (Chrome 114+)](https://developer.chrome.com/docs/extensions/reference/api/sidePanel)
-  (`side_panel.default_path` in manifest.json)
-
-### Packages <a name="structure-packages"></a>
-
-Some shared packages:
-
-- `dev-utils` - utilities for Chrome extension development (manifest-parser, logger)
-- `i18n` - custom internationalization package; provides i18n function with type safety and other validation
-- `hmr` - custom HMR plugin for Vite, injection script for reload/refresh, HMR dev-server
-- `shared` - shared code for the entire project (types, constants, custom hooks, components etc.)
-- `storage` - helpers for easier integration with [storage](https://developer.chrome.com/docs/extensions/reference/api/storage), e.g. local/session storages
-- `tailwind-config` - shared Tailwind config for entire project
-- `tsconfig` - shared tsconfig for the entire project
-- `ui` - function to merge your Tailwind config with the global one; you can save components here
-- `vite-config` - shared Vite config for the entire project
-- `zipper` - run `pnpm zip` to pack the `dist` folder into `extension-YYYYMMDD-HHmmss.zip` inside the newly created `dist-zip`
-- `e2e` - run `pnpm e2e` for end-to-end tests of your zipped extension on different browsers
 
 ## Troubleshooting
 
