@@ -6,8 +6,8 @@
 ![](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![](https://badges.aleen42.com/src/vitejs.svg)
 
-![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/build-zip.yml/badge.svg)
-![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/lint.yml/badge.svg)
+![GitHub action badge](https://github.com/ginny100/ZenCycle/actions/workflows/build-zip.yml/badge.svg)
+![GitHub action badge](https://github.com/ginny100/ZenCycle/actions/workflows/lint.yml/badge.svg)
 
 <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/ginny100/ZenCycleFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
 </div>
@@ -92,7 +92,7 @@ Then, depending on the target browser:
 
 1. Run:
 `nvm install stable && nvm use stable`
-    - Dev: `pnpm dev` (on Windows, you should run as administrator; see [issue#456](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/456))
+    - Dev: `pnpm dev` (on Windows, you should run as administrator; see [issue#456](https://github.com/ginny100/ZenCycle/issues/456))
     - Prod: `pnpm build`
 2. Open in browser - `chrome://extensions`
 3. Check - <kbd>Developer mode</kbd>
@@ -131,8 +131,8 @@ Then, depending on the target browser:
 If saving source files doesn't cause the extension HMR code to trigger a reload of the browser page, try this:
 
 1. Ctrl+C the development server and restart it (`pnpm run dev`)
-2. If you get a [`grpc` error](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/612),
-   [kill the `turbo` process](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/612#issuecomment-2518982339) and run `pnpm dev` again.
+2. If you get a [`grpc` error](https://github.com/ginny100/ZenCycle/issues/612),
+   [kill the `turbo` process](https://github.com/ginny100/ZenCycle/issues/612#issuecomment-2518982339) and run `pnpm dev` again.
 
 ## Reference
 
@@ -141,4 +141,4 @@ If saving source files doesn't cause the extension HMR code to trigger a reload 
 - [Rollup](https://rollupjs.org/guide/en/)
 - [Turborepo](https://turbo.build/repo/docs)
 - [Rollup-plugin-chrome-extension](https://www.extend-chrome.dev/rollup-plugin)
-- [Chrome Extension Boilerplate](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
+- [Chrome Extension Boilerplate](https://github.com/ginny100/ZenCycle)
