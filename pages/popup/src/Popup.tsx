@@ -256,8 +256,8 @@ interface NumberInputProps {
 const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value) || 0;
-    const focusValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
-    const breakValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
+    const focusValues = [25, 50, 100, 200]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
+    const breakValues = [5, 10, 20, 40]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
     let closestValue;
 
     switch (type) {
@@ -288,8 +288,8 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
   };
 
   const handleIncrement = () => {
-    const focusValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
-    const breakValues = [1, 2, 3]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
+    const focusValues = [25, 50, 100, 200]; // Human Comments: For testing, set to [1,2,3], otherwise set to [25, 50, 100, 200]
+    const breakValues = [5, 10, 20, 40]; // Human Comments: For testing, set to [1,2,3], otherwise set to [5, 10, 20, 40]
     let nextValue;
 
     switch (type) {
@@ -316,8 +316,8 @@ const NumberInput = ({ label, value, onChange, suffix, isLight, type }: NumberIn
   };
 
   const handleDecrement = () => {
-    const focusValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 25, 50, 100, 200]
-    const breakValues = [0, 1, 2, 3]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 5, 10, 20, 40]
+    const focusValues = [0, 25, 50, 100, 200]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 25, 50, 100, 200]
+    const breakValues = [0, 5, 10, 20, 40]; // Human Comments: For testing, set to [0, 1, 2, 3], otherwise set to [0, 5, 10, 20, 40]
     let prevValue;
 
     switch (type) {
