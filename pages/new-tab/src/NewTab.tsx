@@ -9,8 +9,7 @@ const NewTab = () => {
   const theme = useStorage(themeStorage);
   const isLight = theme === 'light';
   const logo = isLight ? 'new-tab/logo_horizontal.svg' : 'new-tab/logo_horizontal_dark.svg';
-  const goGithubSite = () =>
-    chrome.tabs.create({ url: 'https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite' });
+  const goGithubSite = () => chrome.tabs.create({ url: 'https://github.com/ginny100/ZenCycle' });
 
   console.log(t('greeting', 'World'));
   return (

@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
-  "version": "0.3.5",
-  "description": "chrome extension boilerplate",
+  "name": "zen-cycle",
+  "version": "0.0.1",
+  "description": "A Chrome extension designed to help you regain focus and boost productivity by incorporating the Pomodoro technique with website-blocking feature. With customizable focus and break durations, this extension empowers you to manage distractions and stay on track with your tasks.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
+    "url": "https://github.com/ginny100/ZenCycle.git"
   },
   "type": "module",
   "scripts": {
