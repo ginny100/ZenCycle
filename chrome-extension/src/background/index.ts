@@ -19,28 +19,57 @@ const stopTimer = (newState: ZenSettings) => {
   zenStorage.set(newState);
 };
 
-const playNotificationSound = () => {
-  const audio = new Audio(chrome.runtime.getURL('../public/times-up.wav'));
-  audio.play().catch(err => console.log('🔊 Error playing sound:', err));
+const playSoundAtAnyTab = () => {
+ chrome.tabs.query({}, tabs => {
+   if (tabs.length > 0) {
+     console.log(tabs);
+     const activeTab = tabs.filter(tab => !tab.url?.includes('chrome://'))[0]; // can't inject script into chrome:// pages, such as chrome://settings or chrome://extensions
+     if (!activeTab.id) {
+       return;
+     }
+
+     // Check if the tab is not muted
+     if (!activeTab.mutedInfo || !activeTab.mutedInfo.muted) {
+       console.log(activeTab, activeTab.url);
+       // Inject the sound-playing script
+       chrome.scripting.executeScript({
+         target: { tabId: activeTab.id },
+         func: url => {
+           console.log('ok ', url);
+           // create a div element  and insert to DOM
+           const audio = new Audio(url);
+           audio.play();
+         },
+         args: ['https://cdn.freesound.org/previews/648/648960_9616576-lq.mp3'],
+       });
+       console.log('sound played');
+     } else {
+       console.log('tab is muted');
+     }
+   } else {
+     console.log('no active tab found');
+   }
+ });
 };
 
 const createNotification = (type: ZenTimerState) => {
   const notificationId = `zen-${Date.now()}`;
 
   // Play notification sound
-  playNotificationSound();
+  playSoundAtAnyTab();
 
   // Create notification
+  // console.log('/icon-128.png');
   chrome.notifications.create(notificationId, {
     type: 'basic',
-    iconUrl: chrome.runtime.getURL('lotus-icon.png'),
+    iconUrl: '/icon-128.png',
     title: type === ZenTimerState.Focus ? 
       'Focus Time Complete!' : 
       'Break Time Complete!',
     message: type === ZenTimerState.Focus ? 
       'Great job staying focused! Time for a break.' : 
       'Break is over. Ready to focus again?',
-    priority: 2
+    priority: 1
   }, () => {
     console.log('🔔 Notification created with ID:', notificationId);
   });
