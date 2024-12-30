@@ -1,10 +1,6 @@
-<div align="center">
+# 🪷 ZenCycle
 
-<picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/99cb6303-64e4-4bed-bf3f-35735353e6de" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a5dbf71c-c509-4c4f-80f4-be88a1943b0a" />
-    <img alt="Logo" src="https://github.com/user-attachments/assets/99cb6303-64e4-4bed-bf3f-35735353e6de" />
-</picture>
+<div align="center">
 
 ![](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -13,47 +9,53 @@
 ![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/build-zip.yml/badge.svg)
 ![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/lint.yml/badge.svg)
 
-<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/Jonghakseo/chrome-extension-boilerplate-react-viteFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
-<a href="https://discord.gg/4ERQ6jgV9a" target="_blank"><img src="https://discord.com/api/guilds/1263404974830915637/widget.png"/></a>
+<img alt="Theme" src="assets/theme.png" />
 
-> This boilerplate
-> has [Legacy version](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/legacy)
-
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/ginny100/ZenCycleFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
 </div>
-
-> [!NOTE]
-> This project is listed in the [Awesome Vite](https://github.com/vitejs/awesome-vite)
-
-> [!TIP]
-> Share storage state between all pages
->
-> https://github.com/user-attachments/assets/3b8e189f-6443-490e-a455-4f9570267f8c
 
 ## Table of Contents
 
 - [Intro](#intro)
 - [Features](#features)
-- [Structure](#structure)
-    - [ChromeExtension](#structure-chrome-extension)
-    - [Packages](#structure-packages)
-    - [Pages](#structure-pages)
+- [Tech Stacks](#tech-stacks)
 - [Getting started](#getting-started)
-    - [Chrome](#getting-started-chrome)
-    - [Firefox](#getting-started-firefox)
-- [Install dependency](#install-dependency)
-    - [For root](#install-dependency-for-root)
-    - [For module](#install-dependency-for-module)
-- [Community](#community)
+    - [Chrome](#for-chrome)
+    - [Firefox](#for-firefox)
+- [Install dependency](#install-dependency-for-turborepo)
+    - [For root](#for-root)
+    - [For module](#for-module)
 - [Reference](#reference)
-- [Star History](#star-history)
-- [Contributors](#contributors)
 
 ## Intro
 
-This boilerplate helps you create Chrome/Firefox extensions using React and Typescript. It improves
-the build speed and development experience by using Vite and Turborepo.
+**🪷 ZenCycle** is a browser extension designed to help you regain focus and boost productivity by incorporating the Pomodoro technique with website-blocking feature. With customizable focus and break durations, this extension empowers you to manage distractions and stay on track with your tasks.
 
 ## Features
+
+🪷 Customizable focus duration, break duration, and list of blocked websites and countdown timer
+
+<img src="assets/feature-1.gif" alt="ZenCycle Setting" />
+
+🪷 Dark mode and light mode
+
+<div style="display: flex; gap: 10px;">
+  <img src="assets/feature-2-2.gif" alt="ZenCycle Dark Mode" width="49%" />
+  <img src="assets/feature-2-1.gif" alt="ZenCycle Dark Mode" width="49%" />
+</div>
+
+🪷 Focus mode with website-blocking feature
+
+<img src="assets/feature-3.gif" alt="ZenCycle Focus Mode" />
+
+🪷 Push notification with sound after each focus and break
+
+<div style="display: flex; gap: 10px;">
+  <img src="assets/feature-4-1.gif" alt="ZenCycle Push Notification" width="49%" />
+  <img src="assets/feature-4-2.gif" alt="ZenCycle Push Notification" width="49%" />
+</div>
+
+## Tech Stacks
 
 - [React18](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -78,7 +80,7 @@ the build speed and development experience by using Vite and Turborepo.
 3. Edit `/packages/i18n/locales/`{your locale(s)}/`messages.json`
 4. In the objects `extensionDescription` and `extensionName`, change the `message` fields (leave `description` alone)
 5. In `/.package.json`, change the `version` to the desired version of your extension.
-6. Install pnpm globally: `npm install -g pnpm` (check your node version >= 18.19.1))
+6. Install pnpm globally: `npm install -g pnpm` (check your node version >= 18.19.1)
 7. Run `pnpm install`
 
 Then, depending on the target browser:
@@ -204,13 +206,6 @@ If saving source files doesn't cause the extension HMR code to trigger a reload 
 2. If you get a [`grpc` error](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/612),
    [kill the `turbo` process](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/issues/612#issuecomment-2518982339) and run `pnpm dev` again.
 
-## Community
-
-To chat with other community members, you can join the [Discord](https://discord.gg/4ERQ6jgV9a) server.
-You can ask questions on that server, and you can also help others.
-
-Also, suggest new features or share any challenges you've faced while developing Chrome extensions!
-
 ## Reference
 
 - [Chrome Extensions](https://developer.chrome.com/docs/extensions)
@@ -218,32 +213,4 @@ Also, suggest new features or share any challenges you've faced while developing
 - [Rollup](https://rollupjs.org/guide/en/)
 - [Turborepo](https://turbo.build/repo/docs)
 - [Rollup-plugin-chrome-extension](https://www.extend-chrome.dev/rollup-plugin)
-
-## Star History <a name="star-history"></a>
-
-<a href="https://star-history.com/#Jonghakseo/chrome-extension-boilerplate-react-vite&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Jonghakseo/chrome-extension-boilerplate-react-vite&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Jonghakseo/chrome-extension-boilerplate-react-vite&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Jonghakseo/chrome-extension-boilerplate-react-vite&type=Date" />
- </picture>
-</a>
-
-## Contributors <a name="contributors"></a>
-
-This Boilerplate is made possible thanks to all of its contributors.
-
-<a href="https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/graphs/contributors">
-  <img width="500px" src="https://contrib.rocks/image?repo=Jonghakseo/chrome-extension-boilerplate-react-vite" alt="All Contributors"/>
-</a>
-
----
-
-## Special Thanks To
-
-| <a href="https://jb.gg/OpenSourceSupport"><img width="40" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo."></a> | <a href="https://www.linkedin.com/in/j-acks0n"><img width="40" style="border-radius:50%" src='https://avatars.githubusercontent.com/u/23139754' alt='Jackson Hong'/></a> |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-
----
-
-Made by [Jonghakseo](https://jonghakseo.github.io/)
+- [Chrome Extension Boilerplate](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
