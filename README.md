@@ -9,7 +9,7 @@
 ![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/build-zip.yml/badge.svg)
 ![GitHub action badge](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/actions/workflows/lint.yml/badge.svg)
 
-<img alt="Theme" src="assets/theme.png" />
+<img alt="Theme" src="assets/theme.png" width="70%" />
 
 <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/ginny100/ZenCycleFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
 </div>
@@ -35,7 +35,7 @@
 
 🪷 Customizable focus duration, break duration, and list of blocked websites and countdown timer
 
-<img src="assets/feature-1.gif" alt="ZenCycle Setting" />
+<img src="assets/feature-1.gif" alt="ZenCycle Setting" width="50%" />
 
 🪷 Dark mode and light mode
 
@@ -46,7 +46,7 @@
 
 🪷 Focus mode with website-blocking feature
 
-<img src="assets/feature-3.gif" alt="ZenCycle Focus Mode" />
+<img src="assets/feature-3.gif" width="70%" alt="ZenCycle Focus Mode" />
 
 🪷 Push notification with sound after each focus and break
 
