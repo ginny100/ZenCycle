@@ -12,7 +12,9 @@
 <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/ginny100/ZenCycleFactions&count_bg=%23#222222&title_bg=%23#454545&title=😀&edge_flat=true" alt="hits"/>
 </div>
 
-<img alt="Theme" src="assets/theme.png" width="80%" align="center" />
+<div align="center">
+  <img alt="Theme" src="assets/theme.png" width="80%" />
+</div>
 
 ## Table of Contents
 
