@@ -5,6 +5,7 @@
 ![](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![](https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![](https://badges.aleen42.com/src/vitejs.svg)
+![](https://img.shields.io/badge/TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 
 ![GitHub action badge](https://github.com/ginny100/ZenCycle/actions/workflows/build-zip.yml/badge.svg)
 ![GitHub action badge](https://github.com/ginny100/ZenCycle/actions/workflows/lint.yml/badge.svg)
