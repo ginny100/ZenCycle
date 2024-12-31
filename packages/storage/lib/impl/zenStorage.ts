@@ -1,6 +1,7 @@
 import { StorageEnum } from '../base/enums';
 import { createStorage } from '../base/base';
 import type { BaseStorage } from '../base/types';
+import { type App } from '../constants/apps';
 
 export enum ZenTimerState {
   Focus = 'focus',
@@ -17,7 +18,7 @@ export interface ZenSettings {
   sessions: number;
   focusMinutes: number;
   breakMinutes: number;
-  blockedApps: string[];
+  blockedApps: App[];
   timerActive: boolean;
   currentSession: number;
   timerState: ZenTimerState;
@@ -29,8 +30,8 @@ export type ZenStorage = BaseStorage<ZenSettings> & {
   updateSessions: (sessions: number) => Promise<void>;
   updateFocusMinutes: (minutes: number) => Promise<void>;
   updateBreakMinutes: (minutes: number) => Promise<void>;
-  addBlockedApp: (appName: string) => Promise<void>;
-  removeBlockedApp: (appName: string) => Promise<void>;
+  addBlockedApp: (app: App) => Promise<boolean>;
+  removeBlockedApp: (appUrl: string) => Promise<void>;
   updateTimerState: (
     timerState: Partial<Pick<ZenSettings, 'timerActive' | 'currentSession' | 'timerState' | 'timeLeft'>>,
   ) => Promise<void>;
@@ -73,16 +74,23 @@ export const zenStorage: ZenStorage = {
       breakMinutes: minutes,
     }));
   },
-  addBlockedApp: async (appName: string) => {
-    await storage.set(current => ({
-      ...current,
-      blockedApps: [...current.blockedApps, appName],
-    }));
+  addBlockedApp: async (app: App) => {
+    // only add if not in blockedApps
+    const alreadyExists = (await storage.get()).blockedApps.some(blockedApp => blockedApp.url === app.url);
+    if (!alreadyExists) {
+      await storage.set(current => ({
+        ...current,
+        blockedApps: [...current.blockedApps, app],
+      }));
+      return true;
+    } else {
+      return false;
+    }
   },
-  removeBlockedApp: async (appName: string) => {
+  removeBlockedApp: async (appUrl: string) => {
     await storage.set(current => ({
       ...current,
-      blockedApps: current.blockedApps.filter(app => app !== appName),
+      blockedApps: current.blockedApps.filter(app => app.url !== appUrl),
     }));
   },
   updateTimerState: async (

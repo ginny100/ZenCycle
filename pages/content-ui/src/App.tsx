@@ -1,4 +1,3 @@
-import { availableApps } from '@extension/shared/lib/constants/apps';
 import { useStorage } from '@extension/shared';
 import { zenStorage, ZenTimerState } from '@extension/storage';
 import { useEffect, useMemo } from 'react';
@@ -11,12 +10,28 @@ export default function App() {
     console.log('content-ui: 🎭 App component loaded ');
   }, []);
 
+  const normalizeUrl = (url: string) => {
+    return url
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .toLowerCase();
+  };
+
   const shouldBlock = useMemo(() => {
-    const currentAppName = availableApps.find(app => app.url === window.location.origin)?.name;
-    if (!currentAppName) return false;
-    console.log('content-ui: 🎭 current App Name is ', currentAppName);
-    console.log('content-ui: 🎭 blockedApps = ', zenSettings?.blockedApps);
-    return zenSettings?.timerState === ZenTimerState.Focus && zenSettings?.blockedApps.includes(currentAppName);
+    const currentOrigin = window.location.origin;
+    const rootOrigin = new URL(currentOrigin).hostname.split('.').slice(-2).join('.');
+    const origins = [rootOrigin, currentOrigin];
+
+    return origins.some(origin => {
+      const normalizedOrigin = normalizeUrl(origin);
+      return (
+        zenSettings?.timerState === ZenTimerState.Focus &&
+        zenSettings?.blockedApps.some(app => {
+          const normalizedAppUrl = normalizeUrl(app.url);
+          return normalizedAppUrl === normalizedOrigin;
+        })
+      );
+    });
   }, [zenSettings]);
 
   useEffect(() => {

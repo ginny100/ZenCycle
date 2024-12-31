@@ -3,7 +3,7 @@ import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import type { ZenSettings } from '@extension/storage';
 import { themeStorage, zenStorage } from '@extension/storage';
 import { useState } from 'react';
-import { availableApps, type App } from '@extension/shared/lib/constants/apps';
+import { availableApps, type App } from '@extension/storage/lib/constants/apps';
 import Timer from './Timer';
 import ThemeSwitcher from './components/ThemeSwitcher';
 
@@ -21,7 +21,32 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
   const [searchResults, setSearchResults] = useState<App[]>([]);
   const shouldShowTimer = zenSettings.timerActive || zenSettings.currentSession === zenSettings.sessions + 1; // Show timer when timer is active or when the last session is done
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Add new function to format and validate URLs
+  const formatUrl = (input: string): string | null => {
+    try {
+      // Add protocol if missing
+      if (!input.match(/^https?:\/\//)) {
+        input = 'https://' + input;
+      }
+      const url = new URL(input);
+      return url.origin;
+    } catch {
+      return null;
+    }
+  };
+
+  // Add function to fetch favicon
+  const getFavicon = async (url: string): Promise<string> => {
+    try {
+      const domain = new URL(url).origin;
+      // Fallback to Google's favicon service if none of the above work
+      return `https://www.google.com/s2/favicons?domain=${domain}&size=32`;
+    } catch {
+      return 'default-favicon.ico'; // You should add a default favicon
+    }
+  };
+
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
     setNewBlockedApp(searchTerm);
 
@@ -30,24 +55,53 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
       return;
     }
 
-    const filtered = availableApps.filter(
-      app => app.name.toLowerCase().includes(searchTerm.toLowerCase()) && !blockedApps.includes(app.name),
+    // First, check predefined apps
+    const filteredApps = availableApps.filter(
+      app =>
+        app.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !blockedApps.some(blockedApp => blockedApp.url === app.url),
     );
-    setSearchResults(filtered);
-  };
 
-  const handleAddApp = (appName: string) => {
-    if (!blockedApps.includes(appName)) {
-      zenStorage.addBlockedApp(appName);
-      setBlockedApps([...blockedApps, appName]);
-      setNewBlockedApp('');
-      setSearchResults([]);
+    // Then, check if input might be a URL
+    const formattedUrl = formatUrl(searchTerm); // TODO: this check is not working
+    if (formattedUrl && !filteredApps.some(app => app.url === formattedUrl)) {
+      const favicon = await getFavicon(formattedUrl);
+      const customApp: App = {
+        name: new URL(formattedUrl).hostname,
+        icon: favicon,
+        url: formattedUrl,
+      };
+      setSearchResults([...filteredApps, customApp]);
+    } else {
+      setSearchResults(filteredApps);
     }
   };
 
-  const handleRemoveBlockedApp = (appToRemove: string) => {
-    zenStorage.removeBlockedApp(appToRemove);
-    setBlockedApps(blockedApps.filter(app => app !== appToRemove));
+  const handleAddApp = async (url: string) => {
+    const defaultApp = availableApps.find(app => app.url === url);
+    if (defaultApp) {
+      const formattedUrl = formatUrl(defaultApp.url);
+      if (formattedUrl && !blockedApps.some(app => app.url === formattedUrl)) {
+        zenStorage.addBlockedApp({ ...defaultApp });
+        setBlockedApps([...blockedApps, defaultApp]);
+      }
+    } else {
+      const formattedUrl = formatUrl(newBlockedApp);
+      if (formattedUrl) {
+        const favicon = await getFavicon(formattedUrl);
+        const isAdded = await zenStorage.addBlockedApp({ name: formattedUrl, icon: favicon, url: formattedUrl });
+        if (isAdded) {
+          setBlockedApps([...blockedApps, { name: formattedUrl, icon: favicon, url: formattedUrl }]);
+        }
+      }
+    }
+    setNewBlockedApp('');
+    setSearchResults([]);
+  };
+
+  const handleRemoveBlockedApp = (appUrl: string) => {
+    zenStorage.removeBlockedApp(appUrl);
+    setBlockedApps(blockedApps.filter(app => app.url !== appUrl));
   };
 
   // Show timer view if timer is active or explicitly set
@@ -175,8 +229,8 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
                       // TODO: state.blockApps should contain the urls
                       <button
                         key={app.name}
-                        onClick={() => handleAddApp(app.name)}
-                        onKeyDown={e => e.key === 'Enter' && handleAddApp(app.name)}
+                        onClick={() => handleAddApp(app.url)}
+                        onKeyDown={e => e.key === 'Enter' && handleAddApp(app.url)}
                         tabIndex={0}
                         className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 ${
                           isLight ? 'hover:bg-[#BCCCDC]' : 'hover:bg-[#9DB2BF]'
@@ -198,20 +252,19 @@ const Popup = ({ zenSettings }: { zenSettings: ZenSettings }) => {
                       <p className="text-gray-500">When you add sites to block, you will see them here.</p>
                     </div>
                   ) : (
-                    blockedApps.map(appName => {
-                      const app = availableApps.find(a => a.name === appName);
+                    blockedApps.map(app => {
                       return (
                         <div
-                          key={appName}
+                          key={app.name}
                           className={`flex items-center justify-between rounded-lg px-4 py-6 ${
                             isLight ? 'bg-[#DDE6ED]' : 'bg-[#526D82]'
                           }`}>
                           <div className="flex items-center gap-3">
                             <img src={app?.icon} alt={`${app?.name} icon`} className="size-4 align-middle" />
-                            <span>{appName}</span>
+                            <span>{app.name}</span>
                           </div>
                           <button
-                            onClick={() => handleRemoveBlockedApp(appName)}
+                            onClick={() => handleRemoveBlockedApp(app.url)}
                             className="text-gray-400 hover:text-gray-600">
                             ➖
                           </button>
